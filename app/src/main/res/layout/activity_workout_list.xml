@@ -14,8 +14,8 @@
             android:id="@+id/workout_list_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary">
-            <include layout="@layout/layout_workout_toolbar"/>
+            android:background="?attr/colorPrimary"
+            app:layout_scrollFlags="scroll|enterAlways">
         </androidx.appcompat.widget.Toolbar>
 
     </com.google.android.material.appbar.AppBarLayout>
