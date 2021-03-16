@@ -79,7 +79,7 @@ public class WorkoutsListActivity extends AppCompatActivity implements
     @Override
     public void onWorkoutClicked(int position) {
         Log.d(TAG, "Note " + position + " has been clicked");
-        Intent intent = new Intent(this, WorkoutActivity.class);
+        Intent intent = new Intent(this, ExerciseListActivity.class);
         intent.putExtra("selected_workout", mWorkouts.get(position));
         startActivity(intent);
 

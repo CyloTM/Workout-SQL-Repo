@@ -23,7 +23,7 @@ public class Workout implements Parcelable {
     @ColumnInfo(name = "title")
     private String title;
 
-    @ColumnInfo(name = "content")
+    @ColumnInfo(name = "exercises")
     private ArrayList<Exercise> exercises;
 
 

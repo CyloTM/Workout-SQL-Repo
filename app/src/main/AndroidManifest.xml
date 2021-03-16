@@ -9,7 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.WorkoutRoomPersistance.NoActionBar">
-        <activity android:name=".WorkoutActivity"></activity>
+        <activity android:name=".ExerciseListActivity"></activity>
         <activity android:name=".WorkoutsListActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

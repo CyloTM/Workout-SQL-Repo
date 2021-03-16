@@ -6,6 +6,7 @@ import android.os.Parcelable;
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "exercises")
@@ -21,11 +22,16 @@ public class Exercise implements Parcelable {
     private String title;
 
     @ColumnInfo(name = "repetitions")
-    private int repetitions;
+    private String repetitions;
 
-    public Exercise(@NonNull String title, int repetitions) {
+    public Exercise(@NonNull String title, String repetitions) {
         this.title = title;
         this.repetitions = repetitions;
+    }
+
+    @Ignore
+    public Exercise(){
+
     }
 
     public int getId() {
@@ -45,11 +51,11 @@ public class Exercise implements Parcelable {
         this.title = title;
     }
 
-    public int getRepetitions() {
+    public String getRepetitions() {
         return repetitions;
     }
 
-    public void setRepetitions(int repetitions) {
+    public void setRepetitions(String repetitions) {
         this.repetitions = repetitions;
     }
 
@@ -57,7 +63,7 @@ public class Exercise implements Parcelable {
     protected Exercise(Parcel in) {
         id = in.readInt();
         title = in.readString();
-        repetitions = in.readInt();
+        repetitions = in.readString();
     }
 
     public static final Creator<Exercise> CREATOR = new Creator<Exercise>() {
