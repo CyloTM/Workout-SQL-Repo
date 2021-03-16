@@ -8,8 +8,9 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.WorkoutRoomPersistance">
-        <activity android:name=".MainActivity">
+        android:theme="@style/Theme.WorkoutRoomPersistance.NoActionBar">
+        <activity android:name=".WorkoutActivity"></activity>
+        <activity android:name=".WorkoutsListActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
