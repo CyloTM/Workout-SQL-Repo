@@ -2,6 +2,7 @@ package com.example.workout_room_persistance;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -22,6 +23,8 @@ import android.widget.TextView;
 
 import com.example.workout_room_persistance.adapter.ExercisesRecyclerAdapter;
 import com.example.workout_room_persistance.adapter.WorkoutsRecyclerAdapter;
+import com.example.workout_room_persistance.dialogs.CustomExerciseListDialog;
+import com.example.workout_room_persistance.dialogs.ExerciseListDialog;
 import com.example.workout_room_persistance.model.Exercise;
 import com.example.workout_room_persistance.model.Workout;
 import com.example.workout_room_persistance.persistance.WorkoutRepository;
@@ -79,6 +82,9 @@ public class ExerciseListActivity extends AppCompatActivity implements
         mToolbarCheck = findViewById(R.id.toolbar_check);
         mToolbarBack = findViewById(R.id.toolbar_back_arrow);
 
+
+        findViewById(R.id.fab).setOnClickListener(this);
+
         if(getIncomingIntent()){
             //new note (EDIT MODE)
             setNewWorkoutProperties();
@@ -134,6 +140,7 @@ public class ExerciseListActivity extends AppCompatActivity implements
 
         mTextViewTitle.setVisibility(View.VISIBLE);
         mEditTextTitle.setVisibility(View.GONE);
+        findViewById(R.id.fab).setOnClickListener(this);
 
         mMode = EDIT_MODE_DISABLED;
         mFinalWorkout.setTitle(mEditTextTitle.getText().toString());
@@ -159,13 +166,18 @@ public class ExerciseListActivity extends AppCompatActivity implements
     }
 
     private void setNewWorkoutProperties(){
-        mEditTextTitle.setText("Note Title");
-        mTextViewTitle.setText("Note Title");
+        mEditTextTitle.setText("New Workout");
+        mTextViewTitle.setText("New Workout");
 
         mInitialWorkout = new Workout();
         mFinalWorkout = new Workout();
-        mInitialWorkout.setTitle("Note Title");
-        mFinalWorkout.setTitle("Note Title");
+        mInitialWorkout.setTitle("New Workout");
+        mFinalWorkout.setTitle("New Workout");
+    }
+
+    public void openExerciseDialog() {
+        ExerciseListDialog exerciseListDialog = new ExerciseListDialog();
+        exerciseListDialog.show(getSupportFragmentManager(), ExerciseListDialog.TAG);
     }
 
 
@@ -272,9 +284,18 @@ public class ExerciseListActivity extends AppCompatActivity implements
                 break;
             }
 
+            case R.id.fab:{
+                openExerciseDialog();
+//                customDialog = new CustomExerciseListDialog(ExerciseListActivity.this, mExercisesRecyclerAdapter);
+//                customDialog.show();
+//                customDialog.setCanceledOnTouchOutside(false);
+                break;
+            }
+
         }
 
     }
+    CustomExerciseListDialog customDialog;
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {

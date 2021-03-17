@@ -48,7 +48,7 @@
         android:layout_weight="85"
         android:id="@+id/text_view_toolbar_title"
         android:textColor="@color/black"
-        android:text="Title"
+        android:text="Workout"
         android:layout_marginStart="15dp"
         android:textSize="23dp"
         android:visibility="visible"/>
