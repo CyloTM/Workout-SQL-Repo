@@ -23,14 +23,14 @@ public class Workout implements Parcelable {
     @ColumnInfo(name = "title")
     private String title;
 
-    @ColumnInfo(name = "exercises")
-    private ArrayList<Exercise> exercises;
+//    @ColumnInfo(name = "exercises")
+//    private ArrayList<Exercise> exercises;
 
 
-    public Workout(String title, ArrayList<Exercise> exercises) {
+    public Workout(String title) {
 
         this.title = title;
-        this.exercises = exercises;
+//        this.exercises = exercises;
     }
 
     @Ignore
@@ -41,7 +41,7 @@ public class Workout implements Parcelable {
     protected Workout(Parcel in) {
         id = in.readInt();
         title = in.readString();
-        exercises = (ArrayList<Exercise>) in.readValue(Exercise.class.getClassLoader());
+//        exercises = (ArrayList<Exercise>) in.readValue(Exercise.class.getClassLoader());
     }
 
     public static final Creator<Workout> CREATOR = new Creator<Workout>() {
@@ -72,20 +72,20 @@ public class Workout implements Parcelable {
         this.title = title;
     }
 
-    public ArrayList<Exercise> getExercises() {
-        return exercises;
-    }
+//    public ArrayList<Exercise> getExercises() {
+//        return exercises;
+//    }
 
-    public void setExercises(ArrayList<Exercise> exercises) {
-        this.exercises = exercises;
-    }
+//    public void setExercises(ArrayList<Exercise> exercises) {
+//        this.exercises = exercises;
+//    }
 
     @Override
     public String toString() {
         return "Note{" +
                 "id =" + id +
                 "title='" + title + '\'' +
-                ", exercises='" + exercises + '\'' +
+//                ", exercises='" + exercises + '\'' +
                 '}';
     }
 
@@ -99,6 +99,7 @@ public class Workout implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(id);
         dest.writeString(title);
-        dest.writeValue(exercises);
+//        dest.writeValue(exercises);
     }
+
 }

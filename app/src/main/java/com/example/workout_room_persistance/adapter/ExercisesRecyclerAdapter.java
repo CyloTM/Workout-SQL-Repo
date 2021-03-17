@@ -77,9 +77,11 @@ public class ExercisesRecyclerAdapter extends RecyclerView.Adapter<ExercisesRecy
             mOnExerciseListener.onExerciseClicked(getAdapterPosition());
             if(mMode == EDIT_MODE_DISABLED){
                 enableRepetitionEditMode();
+
             }
             else {
                 disableRepetitionEditMode();
+                repetitions.setText(editTextRepetitions.getText().toString());
             }
 
         }
@@ -102,7 +104,6 @@ public class ExercisesRecyclerAdapter extends RecyclerView.Adapter<ExercisesRecy
             editTextRepetitions.setFocusableInTouchMode(false);
             editTextRepetitions.setCursorVisible(false);
             editTextRepetitions.clearFocus();
-            repetitions.setText(editTextRepetitions.getText().toString());
             mMode = EDIT_MODE_DISABLED;
         }
     }

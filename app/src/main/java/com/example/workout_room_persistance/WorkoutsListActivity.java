@@ -2,6 +2,7 @@ package com.example.workout_room_persistance;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -13,9 +14,11 @@ import android.view.View;
 
 import com.example.workout_room_persistance.adapter.WorkoutsRecyclerAdapter;
 import com.example.workout_room_persistance.model.Workout;
+import com.example.workout_room_persistance.persistance.WorkoutRepository;
 import com.example.workout_room_persistance.util.VerticalSpacingItemDecorator;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class WorkoutsListActivity extends AppCompatActivity implements
         WorkoutsRecyclerAdapter.OnWorkoutListener,
@@ -32,14 +35,19 @@ public class WorkoutsListActivity extends AppCompatActivity implements
     private ArrayList<Workout> mWorkouts = new ArrayList();
     private WorkoutsRecyclerAdapter mWorkoutsRecyclerAdapter;
 
+    private WorkoutRepository mWorkoutRepository;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_workout_list);
 
+        mWorkoutRepository = new WorkoutRepository(this);
         mRecyclerView = findViewById(R.id.recycler_view);
+        findViewById(R.id.fab).setOnClickListener(this);
         initRecyclerView();
-        insertFakeWorkouts();
+        retrieveWorkouts();
+//        insertFakeWorkouts();
 
         setSupportActionBar(findViewById(R.id.workout_list_toolbar));
         setTitle("Workouts");
@@ -55,6 +63,20 @@ public class WorkoutsListActivity extends AppCompatActivity implements
         mRecyclerView.setAdapter(mWorkoutsRecyclerAdapter);
 
     }
+    private void retrieveWorkouts(){
+        mWorkoutRepository.retrieveWorkoutTask().observe(this, new Observer<List<Workout>>() {
+            @Override
+            public void onChanged(List<Workout> notes) {
+                if(mWorkouts.size()>0){
+                    mWorkouts.clear();
+                }
+                if(notes!=null){
+                    mWorkouts.addAll(notes);
+                }
+                mWorkoutsRecyclerAdapter.notifyDataSetChanged();
+            }
+        });
+    }
 
     public void insertFakeWorkouts(){
         for(int i = 0;i<1000; i++){
@@ -69,11 +91,13 @@ public class WorkoutsListActivity extends AppCompatActivity implements
     private void deleteWorkout(Workout workout){
         mWorkouts.remove(workout);
         mWorkoutsRecyclerAdapter.notifyDataSetChanged();
+        mWorkoutRepository.deleteWorkout(workout);
     }
 
     @Override
     public void onClick(View v) {
-
+        Intent intent = new Intent(this, ExerciseListActivity.class);
+        startActivity(intent);
     }
 
     @Override

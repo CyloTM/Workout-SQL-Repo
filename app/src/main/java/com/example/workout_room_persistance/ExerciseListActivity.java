@@ -24,6 +24,7 @@ import com.example.workout_room_persistance.adapter.ExercisesRecyclerAdapter;
 import com.example.workout_room_persistance.adapter.WorkoutsRecyclerAdapter;
 import com.example.workout_room_persistance.model.Exercise;
 import com.example.workout_room_persistance.model.Workout;
+import com.example.workout_room_persistance.persistance.WorkoutRepository;
 import com.example.workout_room_persistance.util.VerticalSpacingItemDecorator;
 
 import java.util.ArrayList;
@@ -58,7 +59,7 @@ public class ExerciseListActivity extends AppCompatActivity implements
     // Variables
     private ArrayList<Exercise> mExercises = new ArrayList();
     private ExercisesRecyclerAdapter mExercisesRecyclerAdapter;
-
+    private WorkoutRepository mWorkoutRepository;
 
 
 
@@ -68,6 +69,8 @@ public class ExerciseListActivity extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_workout);
+
+        mWorkoutRepository = new WorkoutRepository(this);
 
         mEditTextTitle = findViewById(R.id.edit_text_toolbar_title);
         mTextViewTitle = findViewById(R.id.text_view_toolbar_title);
@@ -102,7 +105,7 @@ public class ExerciseListActivity extends AppCompatActivity implements
 
             mFinalWorkout = new Workout();
             mFinalWorkout.setTitle(mInitialWorkout.getTitle());
-            mFinalWorkout.setExercises(mInitialWorkout.getExercises());
+//            mFinalWorkout.setExercises(mInitialWorkout.getExercises());
             mFinalWorkout.setId(mInitialWorkout.getId());
 
             Log.d(TAG, "getIncomingIntent: " + mInitialWorkout.toString());
@@ -133,27 +136,22 @@ public class ExerciseListActivity extends AppCompatActivity implements
         mEditTextTitle.setVisibility(View.GONE);
 
         mMode = EDIT_MODE_DISABLED;
-
-        if(!mFinalWorkout.getTitle().equals(mInitialWorkout.getTitle())){
-            Log.d(TAG, "disableEditMode: called");
-            saveChanges();
-        }
+        mFinalWorkout.setTitle(mEditTextTitle.getText().toString());
+        Log.d(TAG, "disableEditMode: called");
+        saveChanges();
     }
 
     private void saveChanges(){
         if(mIsNewWorkout){
-            saveNewNote();
+            saveNewWorkout();
         }else{
-            updateNote();
+            updateWorkout();
         }
     }
 
 
-    private void saveNewNote(){
-
-    }
-    private void updateNote(){
-    }
+    private void saveNewWorkout(){mWorkoutRepository.insertWorkoutTask(mFinalWorkout); }
+    private void updateWorkout(){mWorkoutRepository.updateWorkout(mFinalWorkout);}
 
     private void setWorkoutProperties(){
         mEditTextTitle.setText(mInitialWorkout.getTitle());
