@@ -98,7 +98,6 @@ public class ExerciseListDialog extends AppCompatDialogFragment implements
         mRecyclerView.addItemDecoration(itemDecorator);
         mExercisesRecyclerAdapter = new ExercisesRecyclerAdapter(mExercises, this);
         mRecyclerView.setAdapter(mExercisesRecyclerAdapter);
-
     }
 
 //    public void saveData(){
