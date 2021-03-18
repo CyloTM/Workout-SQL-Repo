@@ -3,29 +3,24 @@ package com.example.workout_room_persistance.dialogs;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatDialogFragment;
-import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.workout_room_persistance.R;
+import com.example.workout_room_persistance.adapter.DialogExercisesListRecyclerAdapter;
 import com.example.workout_room_persistance.adapter.ExercisesRecyclerAdapter;
 import com.example.workout_room_persistance.model.Exercise;
 import com.example.workout_room_persistance.util.VerticalSpacingItemDecorator;
 
 import java.util.ArrayList;
-
-import static android.content.Context.MODE_PRIVATE;
 
 public class ExerciseListDialog extends AppCompatDialogFragment implements
         ExercisesRecyclerAdapter.OnExerciseListener
@@ -41,12 +36,8 @@ public class ExerciseListDialog extends AppCompatDialogFragment implements
 
     // Variables
     private ArrayList<Exercise> mExercises = new ArrayList();
-    private ExercisesRecyclerAdapter mExercisesRecyclerAdapter;
+    private DialogExercisesListRecyclerAdapter mExercisesRecyclerAdapter;
     public exerciseDialogListener dialogListener;
-    public Activity activity;
-    public Dialog dialog;
-    private RecyclerView.LayoutManager mLayoutManager;
-    RecyclerView.Adapter adapter;
 
 
     @Override
@@ -96,7 +87,7 @@ public class ExerciseListDialog extends AppCompatDialogFragment implements
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         VerticalSpacingItemDecorator itemDecorator = new VerticalSpacingItemDecorator(10);
         mRecyclerView.addItemDecoration(itemDecorator);
-        mExercisesRecyclerAdapter = new ExercisesRecyclerAdapter(mExercises, this);
+        mExercisesRecyclerAdapter = new DialogExercisesListRecyclerAdapter(mExercises, this::onExerciseClicked);
         mRecyclerView.setAdapter(mExercisesRecyclerAdapter);
     }
 
