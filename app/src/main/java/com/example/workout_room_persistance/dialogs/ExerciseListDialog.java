@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 
@@ -23,7 +24,7 @@ import com.example.workout_room_persistance.util.VerticalSpacingItemDecorator;
 import java.util.ArrayList;
 
 public class ExerciseListDialog extends AppCompatDialogFragment implements
-        ExercisesRecyclerAdapter.OnExerciseListener
+        DialogExercisesListRecyclerAdapter.OnDialogExerciseListener
 {
 
 
@@ -38,6 +39,8 @@ public class ExerciseListDialog extends AppCompatDialogFragment implements
     private ArrayList<Exercise> mExercises = new ArrayList();
     private DialogExercisesListRecyclerAdapter mExercisesRecyclerAdapter;
     public exerciseDialogListener dialogListener;
+    public View v;
+    AlertDialog.Builder builder;
 
 
     @Override
@@ -53,22 +56,42 @@ public class ExerciseListDialog extends AppCompatDialogFragment implements
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         LayoutInflater inflater = getActivity().getLayoutInflater();
-        View v = inflater.inflate(R.layout.dialog_exercise_list, null);
+        v = inflater.inflate(R.layout.dialog_exercise_list, null);
         mRecyclerView = v.findViewById(R.id.recycler_view);
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder = new AlertDialog.Builder(getActivity());
         builder.setView(v)
                 .setTitle("Exercises").create();
+
+
+
+
         initRecyclerView();
         insertFakeExercises();
         return builder.show();
+
+    }
+
+    public void onExerciseClicked(int position) {
+
+        builder.setView(v)
+                .setPositiveButton("ok", (dialog, which) -> {
+                    dialogListener.applyExercise(mExercises.get(position));
+                    return;
+                });
+        Log.d(TAG, "onDoubleTab: double tapped!");
+//        dialogListener.applyExercise(mExercises.get(position).getTitle());
     }
 
     @Override
-    public void onExerciseClicked(int position) {
-
+    public void getDialogExerciseClicked(Exercise position) {
+        Log.d(TAG, "onDoubleTab: double tapped!");
+        dismiss();
+        getActivity().finish();
     }
 
+
     public interface exerciseDialogListener {
+        void applyExercise(String string);
         void applyExercise(Exercise exercise);
     }
 
@@ -87,7 +110,7 @@ public class ExerciseListDialog extends AppCompatDialogFragment implements
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         VerticalSpacingItemDecorator itemDecorator = new VerticalSpacingItemDecorator(10);
         mRecyclerView.addItemDecoration(itemDecorator);
-        mExercisesRecyclerAdapter = new DialogExercisesListRecyclerAdapter(mExercises, this::onExerciseClicked);
+        mExercisesRecyclerAdapter = new DialogExercisesListRecyclerAdapter(mExercises, this);
         mRecyclerView.setAdapter(mExercisesRecyclerAdapter);
     }
 

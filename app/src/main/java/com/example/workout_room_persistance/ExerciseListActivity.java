@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -21,6 +22,8 @@ import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.example.workout_room_persistance.adapter.DialogExercisesListRecyclerAdapter;
+import com.example.workout_room_persistance.adapter.DialogExercisesListRecyclerAdapter.OnDialogExerciseListener;
 import com.example.workout_room_persistance.adapter.ExercisesRecyclerAdapter;
 import com.example.workout_room_persistance.adapter.WorkoutsRecyclerAdapter;
 import com.example.workout_room_persistance.dialogs.CustomExerciseListDialog;
@@ -38,7 +41,9 @@ public class ExerciseListActivity extends AppCompatActivity implements
         GestureDetector.OnDoubleTapListener,
         View.OnClickListener,
         TextWatcher,
-        ExercisesRecyclerAdapter.OnExerciseListener
+        ExercisesRecyclerAdapter.OnExerciseListener,
+        ExerciseListDialog.exerciseDialogListener,
+        OnDialogExerciseListener
 {
 
     private static final String TAG = "ExerciseListActivity";
@@ -99,7 +104,7 @@ public class ExerciseListActivity extends AppCompatActivity implements
 
         mRecyclerView = findViewById(R.id.recycler_view);
         initRecyclerView();
-        insertFakeExercises();
+//        insertFakeExercises();
 
         setListener();
 
@@ -179,7 +184,6 @@ public class ExerciseListActivity extends AppCompatActivity implements
         ExerciseListDialog exerciseListDialog = new ExerciseListDialog();
         exerciseListDialog.show(getSupportFragmentManager(), ExerciseListDialog.TAG);
     }
-
 
     private void hideSoftKeyboard(){
         InputMethodManager imm = (InputMethodManager) this.getSystemService(Activity.INPUT_METHOD_SERVICE);
@@ -286,6 +290,7 @@ public class ExerciseListActivity extends AppCompatActivity implements
 
             case R.id.fab:{
                 openExerciseDialog();
+//                intent.putExtra("selected_note", mExercises.get());
 //                customDialog = new CustomExerciseListDialog(ExerciseListActivity.this, mExercisesRecyclerAdapter);
 //                customDialog.show();
 //                customDialog.setCanceledOnTouchOutside(false);
@@ -295,7 +300,13 @@ public class ExerciseListActivity extends AppCompatActivity implements
         }
 
     }
-    CustomExerciseListDialog customDialog;
+
+
+    public void onFabClicked(int position) {
+        Log.d(TAG, "Note " + position + " has been clicked");
+        Intent intent = new Intent(this, ExerciseListActivity.class);
+//      intent.putExtra("selected_note",);
+    }
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
@@ -330,14 +341,6 @@ public class ExerciseListActivity extends AppCompatActivity implements
     }
 
     // Exercise Recycle View
-    @Override
-    public void onExerciseClicked(int position) {
-        mExercisesRecyclerAdapter.getItemViewType(position);
-
-
-
-
-    }
 
     private void initRecyclerView(){
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
@@ -391,4 +394,28 @@ public class ExerciseListActivity extends AppCompatActivity implements
             deleteExercise(mExercises.get(viewHolder.getAdapterPosition()));
         }
     };
+
+    @Override
+    public void applyExercise(Exercise exercise) {
+
+    }
+
+    @Override
+    public void applyExercise(String string) {
+        mExercisesRecyclerAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void getDialogExerciseClicked(Exercise exercise) {
+        Exercise exercise1= new Exercise();
+        exercise = exercise1;
+        mExercises.add(exercise);
+        mExercisesRecyclerAdapter.notifyDataSetChanged();
+        Log.d("this", "wtf");
+    }
+
+    @Override
+    public void onExerciseClicked(int position) {
+
+    }
 }
