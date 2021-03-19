@@ -43,8 +43,8 @@ public class ExerciseListActivity extends AppCompatActivity implements
         TextWatcher,
         ExercisesRecyclerAdapter.OnExerciseListener,
         ExerciseListDialog.exerciseDialogListener,
-        OnDialogExerciseListener,
-        ExerciseInsertSaveInterface
+        OnDialogExerciseListener
+//        ExerciseInsertSaveInterface
 {
 
     private static final String TAG = "ExerciseListActivity";
@@ -105,7 +105,7 @@ public class ExerciseListActivity extends AppCompatActivity implements
 
         mRecyclerView = findViewById(R.id.recycler_view);
         initRecyclerView();
-        retrieveExercises();
+//        retrieveExercises();
 //        insertFakeExercises();
 
         setListener();
@@ -137,7 +137,7 @@ public class ExerciseListActivity extends AppCompatActivity implements
 
         mTextViewTitle.setVisibility(View.GONE);
         mEditTextTitle.setVisibility(View.VISIBLE);
-        updateExercise();
+//        updateExercise();
 
         mMode = EDIT_MODE_ENABLED;
     }
@@ -159,10 +159,10 @@ public class ExerciseListActivity extends AppCompatActivity implements
     private void saveChanges(){
         if(mIsNewWorkout){
             saveNewWorkout();
-            saveNewExercise();
+//            saveNewExercise();
         }else{
             updateWorkout();
-            updateExercise();
+//            updateExercise();
         }
     }
 
@@ -170,58 +170,58 @@ public class ExerciseListActivity extends AppCompatActivity implements
     private void saveNewWorkout(){mWorkoutRepository.insertWorkoutTask(mFinalWorkout); }
     private void updateWorkout(){mWorkoutRepository.updateWorkout(mFinalWorkout);}
 
-    private void saveNewExercise(){mExerciseRepository.insertExerciseTask(mExercise);}
-
-    @Override
-    public void insertExercise() {
-        saveNewExercise();
-    }
-
-    @Override
-    public void saveExercise() {
-        updateExercise();
-    }
-
-    public void updateExercise(){mExerciseRepository.updateExercise(mExercise);}
-
-    private void retrieveExercises(){
-
-        mExerciseRepository.retrieveExerciseTask().observe(this, new Observer<List<Exercise>>() {
-            @Override
-            public void onChanged(List<Exercise> exercises) {
-                    if(mExercises.size()>0){
-                        mExercises.clear();
-                    }
-                    if(exercises!=null){
-                        mExercises.addAll(exercises);
-                    }
-                    mExercisesRecyclerAdapter.notifyDataSetChanged();
-
-
-            }
-        });
-
-    }
-
-    private void setExerciseProperties(){
-        for(int i = 0;i < mExercises.size(); i++){
-            Exercise noteExercise = new Exercise();
-            noteExercise.setTitle(mExercises.get(i).getTitle());
-            noteExercise.setRepetitions(mExercises.get(i).getRepetitions());
-            mExercises.add(noteExercise);
-        }
-        mExercisesRecyclerAdapter.notifyDataSetChanged();
-    }
-
-    private void setNewExerciseProperties(){
-        mEditTextTitle.setText("New Workout");
-        mTextViewTitle.setText("New Workout");
-
-        mInitialWorkout = new Workout();
-        mFinalWorkout = new Workout();
-        mInitialWorkout.setTitle("New Workout");
-        mFinalWorkout.setTitle("New Workout");
-    }
+//    private void saveNewExercise(){mExerciseRepository.insertExerciseTask(mExercise);}
+//
+//    @Override
+//    public void insertExercise() {
+//        saveNewExercise();
+//    }
+//
+//    @Override
+//    public void saveExercise() {
+//        updateExercise();
+//    }
+//
+//    public void updateExercise(){mExerciseRepository.updateExercise(mExercise);}
+//
+//    private void retrieveExercises(){
+//
+//        mExerciseRepository.retrieveExerciseTask().observe(this, new Observer<List<Exercise>>() {
+//            @Override
+//            public void onChanged(List<Exercise> exercises) {
+//                    if(mExercises.size()>0){
+//                        mExercises.clear();
+//                    }
+//                    if(exercises!=null){
+//                        mExercises.addAll(exercises);
+//                    }
+//                    mExercisesRecyclerAdapter.notifyDataSetChanged();
+//
+//
+//            }
+//        });
+//
+//    }
+//
+//    private void setExerciseProperties(){
+//        for(int i = 0;i < mExercises.size(); i++){
+//            Exercise noteExercise = new Exercise();
+//            noteExercise.setTitle(mExercises.get(i).getTitle());
+//            noteExercise.setRepetitions(mExercises.get(i).getRepetitions());
+//            mExercises.add(noteExercise);
+//        }
+//        mExercisesRecyclerAdapter.notifyDataSetChanged();
+//    }
+//
+//    private void setNewExerciseProperties(){
+//        mEditTextTitle.setText("New Workout");
+//        mTextViewTitle.setText("New Workout");
+//
+//        mInitialWorkout = new Workout();
+//        mFinalWorkout = new Workout();
+//        mInitialWorkout.setTitle("New Workout");
+//        mFinalWorkout.setTitle("New Workout");
+//    }
 
     private void setWorkoutProperties(){
         mEditTextTitle.setText(mInitialWorkout.getTitle());
