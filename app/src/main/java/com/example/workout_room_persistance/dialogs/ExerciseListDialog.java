@@ -19,6 +19,7 @@ import com.example.workout_room_persistance.R;
 import com.example.workout_room_persistance.adapter.DialogExercisesListRecyclerAdapter;
 import com.example.workout_room_persistance.adapter.ExercisesRecyclerAdapter;
 import com.example.workout_room_persistance.model.Exercise;
+import com.example.workout_room_persistance.util.ExerciseInsertSaveInterface;
 import com.example.workout_room_persistance.util.VerticalSpacingItemDecorator;
 
 import java.util.ArrayList;
@@ -26,6 +27,9 @@ import java.util.ArrayList;
 public class ExerciseListDialog extends AppCompatDialogFragment implements
         DialogExercisesListRecyclerAdapter.OnDialogExerciseListener
 {
+
+
+
 
 
 
@@ -41,6 +45,8 @@ public class ExerciseListDialog extends AppCompatDialogFragment implements
     public exerciseDialogListener dialogListener;
     public View v;
     AlertDialog.Builder builder;
+    //Interface
+    private ExerciseInsertSaveInterface myInterface;
 
 
     @Override
@@ -48,6 +54,7 @@ public class ExerciseListDialog extends AppCompatDialogFragment implements
         super.onAttach(context);
         try {
             dialogListener = (exerciseDialogListener) getTargetFragment();
+            myInterface = (ExerciseInsertSaveInterface) context;
         } catch (ClassCastException e) {
             throw new ClassCastException(context.toString() + "implement the ting");
         }
@@ -73,20 +80,12 @@ public class ExerciseListDialog extends AppCompatDialogFragment implements
 
     public void onExerciseClicked(int position) {
 
-        builder.setView(v)
-                .setPositiveButton("ok", (dialog, which) -> {
-                    dialogListener.applyExercise(mExercises.get(position));
-                    return;
-                });
-        Log.d(TAG, "onDoubleTab: double tapped!");
 //        dialogListener.applyExercise(mExercises.get(position).getTitle());
     }
 
     @Override
     public void getDialogExerciseClicked(Exercise position) {
-        Log.d(TAG, "onDoubleTab: double tapped!");
-        dismiss();
-        getActivity().finish();
+//        myInterface.insertExercise();
     }
 
 

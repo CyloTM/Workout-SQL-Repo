@@ -15,8 +15,8 @@ public class ExerciseDeleteAsyncTask extends AsyncTask<Exercise, Void, Void> {
     }
 
     @Override
-    protected Void doInBackground(Exercise... workouts) {
-        mExerciseDao.delete(workouts);
+    protected Void doInBackground(Exercise... exercises) {
+        mExerciseDao.delete(exercises);
         return null;
     }
 }

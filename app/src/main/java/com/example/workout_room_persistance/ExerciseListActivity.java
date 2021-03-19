@@ -2,7 +2,6 @@ package com.example.workout_room_persistance;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -23,16 +22,14 @@ import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.example.workout_room_persistance.adapter.DialogExercisesListRecyclerAdapter;
 import com.example.workout_room_persistance.adapter.DialogExercisesListRecyclerAdapter.OnDialogExerciseListener;
 import com.example.workout_room_persistance.adapter.ExercisesRecyclerAdapter;
-import com.example.workout_room_persistance.adapter.WorkoutsRecyclerAdapter;
-import com.example.workout_room_persistance.dialogs.CustomExerciseListDialog;
 import com.example.workout_room_persistance.dialogs.ExerciseListDialog;
 import com.example.workout_room_persistance.model.Exercise;
 import com.example.workout_room_persistance.model.Workout;
 import com.example.workout_room_persistance.persistance.ExerciseRepository;
 import com.example.workout_room_persistance.persistance.WorkoutRepository;
+import com.example.workout_room_persistance.util.ExerciseInsertSaveInterface;
 import com.example.workout_room_persistance.util.VerticalSpacingItemDecorator;
 
 import java.util.ArrayList;
@@ -46,7 +43,8 @@ public class ExerciseListActivity extends AppCompatActivity implements
         TextWatcher,
         ExercisesRecyclerAdapter.OnExerciseListener,
         ExerciseListDialog.exerciseDialogListener,
-        OnDialogExerciseListener
+        OnDialogExerciseListener,
+        ExerciseInsertSaveInterface
 {
 
     private static final String TAG = "ExerciseListActivity";
@@ -172,8 +170,19 @@ public class ExerciseListActivity extends AppCompatActivity implements
     private void saveNewWorkout(){mWorkoutRepository.insertWorkoutTask(mFinalWorkout); }
     private void updateWorkout(){mWorkoutRepository.updateWorkout(mFinalWorkout);}
 
-    private void saveNewExercise(){mExerciseRepository.insertExerciseTask(mExercise); }
-    private void updateExercise(){mExerciseRepository.updateExercise(mExercise);}
+    private void saveNewExercise(){mExerciseRepository.insertExerciseTask(mExercise);}
+
+    @Override
+    public void insertExercise() {
+        saveNewExercise();
+    }
+
+    @Override
+    public void saveExercise() {
+        updateExercise();
+    }
+
+    public void updateExercise(){mExerciseRepository.updateExercise(mExercise);}
 
     private void retrieveExercises(){
 
