@@ -3,6 +3,7 @@ package com.example.workout_room_persistance;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -30,10 +31,12 @@ import com.example.workout_room_persistance.dialogs.CustomExerciseListDialog;
 import com.example.workout_room_persistance.dialogs.ExerciseListDialog;
 import com.example.workout_room_persistance.model.Exercise;
 import com.example.workout_room_persistance.model.Workout;
+import com.example.workout_room_persistance.persistance.ExerciseRepository;
 import com.example.workout_room_persistance.persistance.WorkoutRepository;
 import com.example.workout_room_persistance.util.VerticalSpacingItemDecorator;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ExerciseListActivity extends AppCompatActivity implements
         View.OnTouchListener,
@@ -68,9 +71,8 @@ public class ExerciseListActivity extends AppCompatActivity implements
     private ArrayList<Exercise> mExercises = new ArrayList();
     private ExercisesRecyclerAdapter mExercisesRecyclerAdapter;
     private WorkoutRepository mWorkoutRepository;
-
-
-
+    private ExerciseRepository mExerciseRepository;
+    private Exercise mExercise;
 
 
     @Override
@@ -79,6 +81,7 @@ public class ExerciseListActivity extends AppCompatActivity implements
         setContentView(R.layout.activity_workout);
 
         mWorkoutRepository = new WorkoutRepository(this);
+        mExerciseRepository= new ExerciseRepository(this);
 
         mEditTextTitle = findViewById(R.id.edit_text_toolbar_title);
         mTextViewTitle = findViewById(R.id.text_view_toolbar_title);
@@ -104,6 +107,7 @@ public class ExerciseListActivity extends AppCompatActivity implements
 
         mRecyclerView = findViewById(R.id.recycler_view);
         initRecyclerView();
+        retrieveExercises();
 //        insertFakeExercises();
 
         setListener();
@@ -135,6 +139,7 @@ public class ExerciseListActivity extends AppCompatActivity implements
 
         mTextViewTitle.setVisibility(View.GONE);
         mEditTextTitle.setVisibility(View.VISIBLE);
+        updateExercise();
 
         mMode = EDIT_MODE_ENABLED;
     }
@@ -156,8 +161,10 @@ public class ExerciseListActivity extends AppCompatActivity implements
     private void saveChanges(){
         if(mIsNewWorkout){
             saveNewWorkout();
+            saveNewExercise();
         }else{
             updateWorkout();
+            updateExercise();
         }
     }
 
@@ -165,9 +172,53 @@ public class ExerciseListActivity extends AppCompatActivity implements
     private void saveNewWorkout(){mWorkoutRepository.insertWorkoutTask(mFinalWorkout); }
     private void updateWorkout(){mWorkoutRepository.updateWorkout(mFinalWorkout);}
 
+    private void saveNewExercise(){mExerciseRepository.insertExerciseTask(mExercise); }
+    private void updateExercise(){mExerciseRepository.updateExercise(mExercise);}
+
+    private void retrieveExercises(){
+
+        mExerciseRepository.retrieveExerciseTask().observe(this, new Observer<List<Exercise>>() {
+            @Override
+            public void onChanged(List<Exercise> exercises) {
+                    if(mExercises.size()>0){
+                        mExercises.clear();
+                    }
+                    if(exercises!=null){
+                        mExercises.addAll(exercises);
+                    }
+                    mExercisesRecyclerAdapter.notifyDataSetChanged();
+
+
+            }
+        });
+
+    }
+
+    private void setExerciseProperties(){
+        for(int i = 0;i < mExercises.size(); i++){
+            Exercise noteExercise = new Exercise();
+            noteExercise.setTitle(mExercises.get(i).getTitle());
+            noteExercise.setRepetitions(mExercises.get(i).getRepetitions());
+            mExercises.add(noteExercise);
+        }
+        mExercisesRecyclerAdapter.notifyDataSetChanged();
+    }
+
+    private void setNewExerciseProperties(){
+        mEditTextTitle.setText("New Workout");
+        mTextViewTitle.setText("New Workout");
+
+        mInitialWorkout = new Workout();
+        mFinalWorkout = new Workout();
+        mInitialWorkout.setTitle("New Workout");
+        mFinalWorkout.setTitle("New Workout");
+    }
+
     private void setWorkoutProperties(){
         mEditTextTitle.setText(mInitialWorkout.getTitle());
         mTextViewTitle.setText(mInitialWorkout.getTitle());
+
+
     }
 
     private void setNewWorkoutProperties(){
@@ -179,6 +230,8 @@ public class ExerciseListActivity extends AppCompatActivity implements
         mInitialWorkout.setTitle("New Workout");
         mFinalWorkout.setTitle("New Workout");
     }
+
+
 
     public void openExerciseDialog() {
         ExerciseListDialog exerciseListDialog = new ExerciseListDialog();
@@ -289,7 +342,9 @@ public class ExerciseListActivity extends AppCompatActivity implements
             }
 
             case R.id.fab:{
+                enableEditMode();
                 openExerciseDialog();
+
 //                intent.putExtra("selected_note", mExercises.get());
 //                customDialog = new CustomExerciseListDialog(ExerciseListActivity.this, mExercisesRecyclerAdapter);
 //                customDialog.show();
@@ -367,6 +422,7 @@ public class ExerciseListActivity extends AppCompatActivity implements
     private void deleteExercise(Exercise exercise){
         mExercises.remove(exercise);
         mExercisesRecyclerAdapter.notifyDataSetChanged();
+        mExerciseRepository.deleteExercise(exercise);
     }
 
     private void focusExercise(Exercise exercise){
@@ -407,11 +463,11 @@ public class ExerciseListActivity extends AppCompatActivity implements
 
     @Override
     public void getDialogExerciseClicked(Exercise exercise) {
-        Exercise exercise1= new Exercise();
-        exercise = exercise1;
-        mExercises.add(exercise);
-        mExercisesRecyclerAdapter.notifyDataSetChanged();
-        Log.d("this", "wtf");
+//        Exercise exercise1= new Exercise();
+//        exercise = exercise1;
+//        mExercises.add(exercise);
+//        mExercisesRecyclerAdapter.notifyDataSetChanged();
+//        Log.d("this", "wtf");
     }
 
     @Override

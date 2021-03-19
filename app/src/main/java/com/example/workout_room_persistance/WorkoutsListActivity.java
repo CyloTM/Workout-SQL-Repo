@@ -66,12 +66,12 @@ public class WorkoutsListActivity extends AppCompatActivity implements
     private void retrieveWorkouts(){
         mWorkoutRepository.retrieveWorkoutTask().observe(this, new Observer<List<Workout>>() {
             @Override
-            public void onChanged(List<Workout> notes) {
+            public void onChanged(List<Workout> workouts) {
                 if(mWorkouts.size()>0){
                     mWorkouts.clear();
                 }
-                if(notes!=null){
-                    mWorkouts.addAll(notes);
+                if(workouts!=null){
+                    mWorkouts.addAll(workouts);
                 }
                 mWorkoutsRecyclerAdapter.notifyDataSetChanged();
             }
