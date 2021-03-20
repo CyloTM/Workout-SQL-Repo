@@ -105,7 +105,7 @@ public class ExerciseListActivity extends AppCompatActivity implements
 
         mRecyclerView = findViewById(R.id.recycler_view);
         initRecyclerView();
-//        retrieveExercises();
+        retrieveExercises();
 //        insertFakeExercises();
 
         setListener();
@@ -164,13 +164,14 @@ public class ExerciseListActivity extends AppCompatActivity implements
             updateWorkout();
 //            updateExercise();
         }
+
     }
 
 
     private void saveNewWorkout(){mWorkoutRepository.insertWorkoutTask(mFinalWorkout); }
     private void updateWorkout(){mWorkoutRepository.updateWorkout(mFinalWorkout);}
 
-//    private void saveNewExercise(){mExerciseRepository.insertExerciseTask(mExercise);}
+    private void saveNewExercise(){mExerciseRepository.insertExerciseTask(mExercise);}
 //
 //    @Override
 //    public void insertExercise() {
@@ -182,26 +183,23 @@ public class ExerciseListActivity extends AppCompatActivity implements
 //        updateExercise();
 //    }
 //
-//    public void updateExercise(){mExerciseRepository.updateExercise(mExercise);}
+    public void updateExercise(){mExerciseRepository.updateExercise(mExercise);}
 //
-//    private void retrieveExercises(){
-//
-//        mExerciseRepository.retrieveExerciseTask().observe(this, new Observer<List<Exercise>>() {
-//            @Override
-//            public void onChanged(List<Exercise> exercises) {
-//                    if(mExercises.size()>0){
-//                        mExercises.clear();
-//                    }
-//                    if(exercises!=null){
-//                        mExercises.addAll(exercises);
-//                    }
-//                    mExercisesRecyclerAdapter.notifyDataSetChanged();
-//
-//
-//            }
-//        });
-//
-//    }
+    private void retrieveExercises(){
+        mExerciseRepository.retrieveExerciseTask().observe(this, new Observer<List<Exercise>>() {
+            @Override
+            public void onChanged(List<Exercise> exercises) {
+                    if(mExercises.size()>0){
+                        mExercises.clear();
+                    }
+                    if(exercises!=null){
+                        mExercises.addAll(exercises);
+                    }
+                    mExercisesRecyclerAdapter.notifyDataSetChanged();
+            }
+        });
+
+    }
 //
 //    private void setExerciseProperties(){
 //        for(int i = 0;i < mExercises.size(); i++){
@@ -351,8 +349,10 @@ public class ExerciseListActivity extends AppCompatActivity implements
             }
 
             case R.id.fab:{
-                enableEditMode();
-                openExerciseDialog();
+//                enableEditMode();
+//                openExerciseDialog();
+                saveNewExercise();
+                updateExercise();
 
 //                intent.putExtra("selected_note", mExercises.get());
 //                customDialog = new CustomExerciseListDialog(ExerciseListActivity.this, mExercisesRecyclerAdapter);

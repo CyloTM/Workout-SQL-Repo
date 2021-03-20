@@ -13,7 +13,9 @@ import android.util.Log;
 import android.view.View;
 
 import com.example.workout_room_persistance.adapter.WorkoutsRecyclerAdapter;
+import com.example.workout_room_persistance.model.Exercise;
 import com.example.workout_room_persistance.model.Workout;
+import com.example.workout_room_persistance.persistance.ExerciseRepository;
 import com.example.workout_room_persistance.persistance.WorkoutRepository;
 import com.example.workout_room_persistance.util.VerticalSpacingItemDecorator;
 
@@ -36,6 +38,7 @@ public class WorkoutsListActivity extends AppCompatActivity implements
     private WorkoutsRecyclerAdapter mWorkoutsRecyclerAdapter;
 
     private WorkoutRepository mWorkoutRepository;
+    private ExerciseRepository mExerciseRepository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +46,7 @@ public class WorkoutsListActivity extends AppCompatActivity implements
         setContentView(R.layout.activity_workout_list);
 
         mWorkoutRepository = new WorkoutRepository(this);
+        mExerciseRepository= new ExerciseRepository(this);
         mRecyclerView = findViewById(R.id.recycler_view);
         findViewById(R.id.fab).setOnClickListener(this);
         initRecyclerView();
@@ -63,7 +67,15 @@ public class WorkoutsListActivity extends AppCompatActivity implements
         mRecyclerView.setAdapter(mWorkoutsRecyclerAdapter);
 
     }
+
+
     private void retrieveWorkouts(){
+        mExerciseRepository.retrieveExerciseTask().observe(this, new Observer<List<Exercise>>() {
+            @Override
+            public void onChanged(List<Exercise> exercises) {
+
+            }
+        });
         mWorkoutRepository.retrieveWorkoutTask().observe(this, new Observer<List<Workout>>() {
             @Override
             public void onChanged(List<Workout> workouts) {

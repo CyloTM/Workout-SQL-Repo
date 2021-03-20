@@ -7,11 +7,9 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
 import com.example.workout_room_persistance.model.Exercise;
-import com.example.workout_room_persistance.model.Workout;
-
 @Database(entities = {Exercise.class}, version=1)
 public abstract class ExerciseDatabase extends RoomDatabase {
-   public static final String DATABASE_NAME = "exercise_db";
+   public static final String DATABASE_NAME2 = "exercise_db";
 
    private static ExerciseDatabase instance;
 
@@ -20,7 +18,7 @@ public abstract class ExerciseDatabase extends RoomDatabase {
            instance = Room.databaseBuilder(
                    context.getApplicationContext(),
                    ExerciseDatabase.class,
-                   DATABASE_NAME
+                   DATABASE_NAME2
            ).build();
        return instance;
     }
