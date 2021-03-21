@@ -33,8 +33,8 @@ public class WorkoutRepository {
         return mWorkoutDatabase.getWorkoutDao().getAllData();
     }
 
-//    public void deleteWorkout(Workout workout){
-//        new DeleteAsyncTask(mWorkoutDatabase.getWorkoutDao()).execute(workout);
+    public void deleteWorkout(Workout workout){
+        new DeleteAsyncTask(mWorkoutDatabase.getWorkoutDao()).execute(workout);
 
-//    }
+    }
 }

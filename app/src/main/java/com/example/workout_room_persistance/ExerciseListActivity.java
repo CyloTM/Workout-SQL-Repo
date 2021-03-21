@@ -44,7 +44,7 @@ public class ExerciseListActivity extends AppCompatActivity implements
         TextWatcher,
         ExercisesRecyclerAdapter.OnExerciseListener,
         ExerciseListDialog.exerciseDialogListener,
-        OnDialogExerciseListener
+        ExerciseInterface
 {
 
     private static final String TAG = "ExerciseListActivity";
@@ -168,14 +168,14 @@ public class ExerciseListActivity extends AppCompatActivity implements
     private void saveNewWorkout(){mWorkoutRepository.insertWorkoutTask(mFinalWorkout); }
     private void updateWorkout(){mWorkoutRepository.updateWorkout(mFinalWorkout);}
 
-    private void saveNewExercise(){
+    public void saveNewExercise(){
 
         Exercise mExercise = new Exercise();
         mExercise.setTitle("Exercise");
-        mExercise.setRepetitions("1");
+        mExercise.setRepetitions("0");
         mExercises.add(mExercise);
         mExercisesRecyclerAdapter.notifyDataSetChanged();
-        mExerciseRepository.insertExerciseTask(mExercise);
+//        mExerciseRepository.insertExerciseTask(mExercise);
 
 //        mExerciseRepository.updateExercise(mExercise);
     }
@@ -305,9 +305,9 @@ public class ExerciseListActivity extends AppCompatActivity implements
             }
 
             case R.id.fab:{
-                saveNewExercise();
+//                saveNewExercise();
 
-//                openExerciseDialog();
+                openExerciseDialog();
 //                intent.putExtra("selected_note", mExercises.get());
 //                customDialog = new CustomExerciseListDialog(ExerciseListActivity.this, mExercisesRecyclerAdapter);
 //                customDialog.show();
@@ -413,17 +413,6 @@ public class ExerciseListActivity extends AppCompatActivity implements
         }
     };
 
-    @Override
-    public void applyExercise(Exercise exercise) {
-
-    }
-
-    @Override
-    public void applyExercise(String string) {
-        mExercisesRecyclerAdapter.notifyDataSetChanged();
-    }
-
-    @Override
     public void getDialogExerciseClicked(Exercise exercise) {
         Exercise exercise1= new Exercise();
         exercise = exercise1;

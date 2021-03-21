@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatDialogFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.workout_room_persistance.ExerciseInterface;
 import com.example.workout_room_persistance.R;
 import com.example.workout_room_persistance.adapter.DialogExercisesListRecyclerAdapter;
 import com.example.workout_room_persistance.adapter.ExercisesRecyclerAdapter;
@@ -39,13 +40,16 @@ public class ExerciseListDialog extends AppCompatDialogFragment implements
     private ArrayList<Exercise> mExercises = new ArrayList();
     private DialogExercisesListRecyclerAdapter mExercisesRecyclerAdapter;
     public exerciseDialogListener dialogListener;
+    public ExerciseInterface mExerciseInterface;
     public View v;
     AlertDialog.Builder builder;
 
 
     @Override
     public void onAttach(@NonNull Context context) {
+
         super.onAttach(context);
+        mExerciseInterface = (ExerciseInterface) context;
         try {
             dialogListener = (exerciseDialogListener) getTargetFragment();
         } catch (ClassCastException e) {
@@ -60,39 +64,28 @@ public class ExerciseListDialog extends AppCompatDialogFragment implements
         mRecyclerView = v.findViewById(R.id.recycler_view);
         builder = new AlertDialog.Builder(getActivity());
         builder.setView(v)
-                .setTitle("Exercises").create();
+                .setTitle("Exercises")
+                .setPositiveButton("ok", (dialog, which) -> {
+//                    dialogListener.applyExercise(mExercises.get(position));
+                    mExerciseInterface.saveNewExercise();
 
-
-
-
+                    return;
+                }).create();
         initRecyclerView();
         insertFakeExercises();
         return builder.show();
 
     }
 
-    public void onExerciseClicked(int position) {
-
-        builder.setView(v)
-                .setPositiveButton("ok", (dialog, which) -> {
-                    dialogListener.applyExercise(mExercises.get(position));
-                    return;
-                });
-        Log.d(TAG, "onDoubleTab: double tapped!");
-//        dialogListener.applyExercise(mExercises.get(position).getTitle());
-    }
-
     @Override
-    public void getDialogExerciseClicked(Exercise position) {
+    public void getDialogExerciseClicked(int position) {
         Log.d(TAG, "onDoubleTab: double tapped!");
-        dismiss();
-        getActivity().finish();
     }
 
 
     public interface exerciseDialogListener {
-        void applyExercise(String string);
-        void applyExercise(Exercise exercise);
+//        void applyExercise(String string);
+//        void applyExercise(Exercise exercise);
     }
 
     public void insertFakeExercises(){

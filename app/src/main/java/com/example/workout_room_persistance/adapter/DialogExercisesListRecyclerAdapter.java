@@ -76,7 +76,7 @@ public class DialogExercisesListRecyclerAdapter extends RecyclerView.Adapter<Dia
 
     //On click listener
     public interface OnDialogExerciseListener {
-        void getDialogExerciseClicked(Exercise position);
+        void getDialogExerciseClicked(int position);
     }
 
 
