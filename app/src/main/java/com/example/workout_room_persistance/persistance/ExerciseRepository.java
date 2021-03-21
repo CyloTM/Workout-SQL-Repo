@@ -6,6 +6,8 @@ import androidx.lifecycle.LiveData;
 
 import com.example.workout_room_persistance.async.DeleteAsyncTask;
 import com.example.workout_room_persistance.async.ExerciseDeleteAsyncTask;
+import com.example.workout_room_persistance.async.ExerciseInsertAsyncTask;
+import com.example.workout_room_persistance.async.ExerciseUpdateAsyncTask;
 import com.example.workout_room_persistance.async.InsertAsyncTask;
 import com.example.workout_room_persistance.async.UpdateAsyncTask;
 import com.example.workout_room_persistance.model.Exercise;
@@ -22,12 +24,12 @@ public class ExerciseRepository {
     }
 
     public void insertExerciseTask(Exercise exercise){
-        new ExerciseDeleteAsyncTask(mExerciseDatabase.getExerciseDao()).execute(exercise);
+        new ExerciseInsertAsyncTask(mExerciseDatabase.getExerciseDao()).execute(exercise);
 
     }
 
     public void updateExercise(Exercise exercise){
-        new ExerciseDeleteAsyncTask(mExerciseDatabase.getExerciseDao()).execute(exercise);
+        new ExerciseUpdateAsyncTask(mExerciseDatabase.getExerciseDao()).execute(exercise);
 
     }
 
@@ -38,5 +40,9 @@ public class ExerciseRepository {
     public void deleteExercise(Exercise exercise){
         new ExerciseDeleteAsyncTask(mExerciseDatabase.getExerciseDao()).execute(exercise);
 
+    }
+
+    public void deleteAll(){
+        mExerciseDatabase.getExerciseDao().delete();
     }
 }

@@ -30,6 +30,7 @@ import com.example.workout_room_persistance.dialogs.CustomExerciseListDialog;
 import com.example.workout_room_persistance.dialogs.ExerciseListDialog;
 import com.example.workout_room_persistance.model.Exercise;
 import com.example.workout_room_persistance.model.Workout;
+import com.example.workout_room_persistance.persistance.ExerciseRepository;
 import com.example.workout_room_persistance.persistance.WorkoutRepository;
 import com.example.workout_room_persistance.util.VerticalSpacingItemDecorator;
 
@@ -68,6 +69,7 @@ public class ExerciseListActivity extends AppCompatActivity implements
     private ArrayList<Exercise> mExercises = new ArrayList();
     private ExercisesRecyclerAdapter mExercisesRecyclerAdapter;
     private WorkoutRepository mWorkoutRepository;
+    private ExerciseRepository mExerciseRepository;
 
 
 
@@ -79,6 +81,7 @@ public class ExerciseListActivity extends AppCompatActivity implements
         setContentView(R.layout.activity_workout);
 
         mWorkoutRepository = new WorkoutRepository(this);
+        mExerciseRepository = new ExerciseRepository(this);
 
         mEditTextTitle = findViewById(R.id.edit_text_toolbar_title);
         mTextViewTitle = findViewById(R.id.text_view_toolbar_title);
@@ -164,6 +167,19 @@ public class ExerciseListActivity extends AppCompatActivity implements
 
     private void saveNewWorkout(){mWorkoutRepository.insertWorkoutTask(mFinalWorkout); }
     private void updateWorkout(){mWorkoutRepository.updateWorkout(mFinalWorkout);}
+
+    private void saveNewExercise(){
+
+        Exercise mExercise = new Exercise();
+        mExercise.setTitle("Exercise");
+        mExercise.setRepetitions("1");
+        mExercises.add(mExercise);
+        mExercisesRecyclerAdapter.notifyDataSetChanged();
+        mExerciseRepository.insertExerciseTask(mExercise);
+
+//        mExerciseRepository.updateExercise(mExercise);
+    }
+//    private void updateExercise(){mExerciseRepository.updateExercise(mFinalWorkout);}
 
     private void setWorkoutProperties(){
         mEditTextTitle.setText(mInitialWorkout.getTitle());
@@ -289,7 +305,9 @@ public class ExerciseListActivity extends AppCompatActivity implements
             }
 
             case R.id.fab:{
-                openExerciseDialog();
+                saveNewExercise();
+
+//                openExerciseDialog();
 //                intent.putExtra("selected_note", mExercises.get());
 //                customDialog = new CustomExerciseListDialog(ExerciseListActivity.this, mExercisesRecyclerAdapter);
 //                customDialog.show();

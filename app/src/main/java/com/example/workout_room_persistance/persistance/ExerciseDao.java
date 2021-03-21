@@ -28,4 +28,9 @@ public interface ExerciseDao {
 
     @Update
     int update(Exercise... exercise);
+
+//    @Query("DELETE FROM exercises")
+//    public void delete();
+
+
 }
