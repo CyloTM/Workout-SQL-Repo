@@ -13,10 +13,10 @@ import java.util.List;
 
 public class WorkoutRepository {
 
-    private com.example.workout_room_persistance.persistance.ExerciseDatabase mWorkoutDatabase;
+    private com.example.workout_room_persistance.persistance.WorkoutDatabase mWorkoutDatabase;
 
     public WorkoutRepository(Context context) {
-        mWorkoutDatabase = com.example.workout_room_persistance.persistance.ExerciseDatabase.getInstance(context);
+        mWorkoutDatabase = com.example.workout_room_persistance.persistance.WorkoutDatabase.getInstance(context);
     }
 
     public void insertWorkoutTask(Workout workout){

@@ -7,7 +7,6 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
 import com.example.workout_room_persistance.model.Exercise;
-import com.example.workout_room_persistance.model.Workout;
 
 @Database(entities = {Exercise.class}, version=1)
 public abstract class ExerciseDatabase extends RoomDatabase {
