@@ -49,12 +49,16 @@ public class DialogExercisesListRecyclerAdapter extends RecyclerView.Adapter<Dia
         return new ViewHolder(view, mOnDialogExerciseListener);
     }
 
+
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int i) {
         holder.title.setText(mExercises.get(i).getTitle());
     }
 
-
+    @Override
+    public int getItemViewType(int position) {
+        return position;
+    }
 
     @Override
     public int getItemCount() {
@@ -77,12 +81,12 @@ public class DialogExercisesListRecyclerAdapter extends RecyclerView.Adapter<Dia
         @Override
         public void onClick(View v) {
             if (!focusingItem){
-                itemView.setSelected(true);
+                v.setSelected(true);
                 focusingItem = true;
                 focusedItem = getLayoutPosition();
             }
             else if (focusedItem == getLayoutPosition()){
-                itemView.setSelected(false);
+                v.setSelected(false);
                 focusingItem = false;
             }
         }
