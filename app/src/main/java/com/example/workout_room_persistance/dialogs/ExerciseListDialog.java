@@ -28,8 +28,6 @@ public class ExerciseListDialog extends AppCompatDialogFragment implements
         DialogExercisesListRecyclerAdapter.OnDialogExerciseListener
 {
 
-
-
     public static final String TAG = "ExerciseListDialog";
 
     //UI
