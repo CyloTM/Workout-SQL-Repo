@@ -27,6 +27,9 @@ public class DialogExercisesListRecyclerAdapter extends RecyclerView.Adapter<Dia
 
     private OnDialogExerciseListener mOnDialogExerciseListener;
 
+    private int focusedItem = 100;
+    private boolean focusingItem = false;
+
 
 
     public DialogExercisesListRecyclerAdapter(ArrayList<Exercise> exercise, OnDialogExerciseListener onDialogExerciseListener) {
@@ -43,7 +46,6 @@ public class DialogExercisesListRecyclerAdapter extends RecyclerView.Adapter<Dia
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.dialog_exercise_list_item, parent, false);
-
         return new ViewHolder(view, mOnDialogExerciseListener);
     }
 
@@ -74,7 +76,15 @@ public class DialogExercisesListRecyclerAdapter extends RecyclerView.Adapter<Dia
 
         @Override
         public void onClick(View v) {
-
+            if (!focusingItem){
+                itemView.setSelected(true);
+                focusingItem = true;
+                focusedItem = getLayoutPosition();
+            }
+            else if (focusedItem == getLayoutPosition()){
+                itemView.setSelected(false);
+                focusingItem = false;
+            }
         }
     }
 
@@ -82,11 +92,5 @@ public class DialogExercisesListRecyclerAdapter extends RecyclerView.Adapter<Dia
     public interface OnDialogExerciseListener {
         void getDialogExerciseClicked(int position);
     }
-
-
-
-
-
-
-
 }
+
