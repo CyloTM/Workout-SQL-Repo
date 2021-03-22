@@ -168,13 +168,15 @@ public class ExerciseListActivity extends AppCompatActivity implements
     private void saveNewWorkout(){mWorkoutRepository.insertWorkoutTask(mFinalWorkout); }
     private void updateWorkout(){mWorkoutRepository.updateWorkout(mFinalWorkout);}
 
+    private int i;
     public void saveNewExercise(){
-
+        i+=1;
         Exercise mExercise = new Exercise();
-        mExercise.setTitle("Exercise");
+        mExercise.setTitle("Exercise" + i);
         mExercise.setRepetitions("0");
         mExercises.add(mExercise);
         mExercisesRecyclerAdapter.notifyDataSetChanged();
+
 //        mExerciseRepository.insertExerciseTask(mExercise);
 
 //        mExerciseRepository.updateExercise(mExercise);
@@ -425,4 +427,5 @@ public class ExerciseListActivity extends AppCompatActivity implements
     public void onExerciseClicked(int position) {
 
     }
+
 }
