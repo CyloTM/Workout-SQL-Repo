@@ -1,12 +1,9 @@
 package com.example.workout_room_persistance.adapter;
 
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -17,6 +14,7 @@ import com.example.workout_room_persistance.R;
 import com.example.workout_room_persistance.model.Exercise;
 
 import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class ExercisesRecyclerAdapter extends RecyclerView.Adapter<ExercisesRecyclerAdapter.ViewHolder>{
 
@@ -40,6 +38,7 @@ public class ExercisesRecyclerAdapter extends RecyclerView.Adapter<ExercisesRecy
         this.mExercises = exercise;
         this.mOnExerciseListener = onExerciseListener;
 
+
     }
 
     // Needed Override methods for RecyclerView Adapter
@@ -47,13 +46,12 @@ public class ExercisesRecyclerAdapter extends RecyclerView.Adapter<ExercisesRecy
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_exercise_list_item, parent, false);
-
         return new ViewHolder(view, mOnExerciseListener);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int i) {
-
+        int[] pos = {0};
         holder.title.setText(mExercises.get(i).getTitle());
         holder.repetitions.setText(mExercises.get(i).getRepetitions());
         holder.itemView.setOnClickListener(v -> {
@@ -65,28 +63,52 @@ public class ExercisesRecyclerAdapter extends RecyclerView.Adapter<ExercisesRecy
                 holder.editTextRepetitions.setCursorVisible(true);
                 holder.editTextRepetitions.requestFocus();
                 current = mExercises.get(i);
-                mOnExerciseListener.onExerciseClicked(holder.getLayoutPosition() );
+                pos[0] = (holder.getLayoutPosition());
+                mOnExerciseListener.onExerciseClicked(holder.getLayoutPosition());
                 mFocusingItem=true;
 
             }
             else if(mFocusingItem) {
-                if(holder.editTextRepetitions.getText().toString().equals("")){
-                    current.setRepetitions("0");
-                }
-                else{current.setRepetitions(holder.editTextRepetitions.getText().toString());}
-                Log.d(TAG, "disabled edit mode");
-                Log.d(TAG, "current =" + current.getTitle());
-                holder.repetitions.setVisibility(View.VISIBLE);
-                holder.editTextRepetitions.setVisibility(View.GONE);
-//            editTextRepetitions.setFocusable(false);
-//            editTextRepetitions.setFocusableInTouchMode(false);
-                holder.editTextRepetitions.setCursorVisible(false);
-                holder.editTextRepetitions.clearFocus();
-                mFocusingItem=false;
-            }
+                notifyItemChanged(pos[0]);
+                Log.d(TAG, "current pos" + pos[0]);
 
+                mFocusingItem = false;}
+//            else if(holder.getLayoutPosition() != pos[0]) {
+//                notifyItemChanged(pos[0]);
+//                holder.disableRepetitionEditMode(current.getId());
+//                holder.disableRepetitionEditMode(pos[0]);
+//                if(holder.editTextRepetitions.getText().toString().equals("")){
+//                    current.setRepetitions("0");
+//                }
+//                else{current.setRepetitions(holder.editTextRepetitions.getText().toString());}
+//                Log.d(TAG, "disabled edit mode");
+//                Log.d(TAG, "current =" + current.getTitle());
+//                holder.repetitions.setVisibility(View.VISIBLE);
+//                holder.editTextRepetitions.setVisibility(View.GONE);
+////            editTextRepetitions.setFocusable(false);
+////            editTextRepetitions.setFocusableInTouchMode(false);
+//                holder.editTextRepetitions.setCursorVisible(false);
+//                holder.editTextRepetitions.clearFocus();
+//                mFocusingItem=false;
+//            }
+//
+
+//            holder.itemView.setOnClickListener(v -> {
+//                        if (mFocusingItem) {
+////                int position = mOnExerciseListener.onExerciseClicked(holder.getLayoutPosition());
+////                    holder.disableRepetitionEditMode(position);
+////                    Log.d(TAG, "disabled edit mode");
+//////                    repetitions.setVisibility(View.VISIBLE);
+//////                    holder.editTextRepetitions.setVisibility(View.GONE);
+//////                    holder.editTextRepetitions.setCursorVisible(false);
+//////                    holder.editTextRepetitions.clearFocus();
+////                    notifyDataSetChanged();
+//                        }
+//                    }
+//            );
         });
     }
+
     public void enableRepetitionEditMode(){
         repetitions.setVisibility(View.GONE);
         editTextRepetitions.setVisibility(View.VISIBLE);
@@ -99,9 +121,9 @@ public class ExercisesRecyclerAdapter extends RecyclerView.Adapter<ExercisesRecy
     }
 
     public void disableRepetitionEditMode() {
-
+        Exercise exercise = current;
         if(editTextRepetitions.getText().toString().equals("")){
-            repetitions.setText("0");
+            current.setRepetitions("0");
         }
         else{repetitions.setText(editTextRepetitions.getText().toString());}
         Log.d(TAG, "disabled edit mode");
@@ -184,20 +206,22 @@ public class ExercisesRecyclerAdapter extends RecyclerView.Adapter<ExercisesRecy
             mMode = EDIT_MODE_ENABLED;
         }
 
-        public void disableRepetitionEditMode() {
+        public void disableRepetitionEditMode(int position) {
+            current = mExercises.get(position);
 
             if(editTextRepetitions.getText().toString().equals("")){
-                repetitions.setText("0");
+//                current.setRepetitions("0");
+                this.repetitions.setText("0");
             }
-            else{repetitions.setText(editTextRepetitions.getText().toString());}
+            else{this.repetitions.setText(editTextRepetitions.getText().toString());}
             Log.d(TAG, "disabled edit mode");
 
-            repetitions.setVisibility(View.VISIBLE);
-            editTextRepetitions.setVisibility(View.GONE);
+            this.repetitions.setVisibility(View.VISIBLE);
+            this.editTextRepetitions.setVisibility(View.GONE);
 //            editTextRepetitions.setFocusable(false);
 //            editTextRepetitions.setFocusableInTouchMode(false);
-            editTextRepetitions.setCursorVisible(false);
-            editTextRepetitions.clearFocus();
+            this.editTextRepetitions.setCursorVisible(false);
+            this.editTextRepetitions.clearFocus();
             mMode = EDIT_MODE_DISABLED;
             mFocusingItem=false;
         }
@@ -205,7 +229,7 @@ public class ExercisesRecyclerAdapter extends RecyclerView.Adapter<ExercisesRecy
 
     //On click listener
     public interface OnExerciseListener {
-        void onExerciseClicked(int position);
+        int onExerciseClicked(int position);
     }
 
 

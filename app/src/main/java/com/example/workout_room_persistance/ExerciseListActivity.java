@@ -424,8 +424,8 @@ public class ExerciseListActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onExerciseClicked(int position) {
-
+    public int onExerciseClicked(int position) {
+    return position;
     }
 
 }
