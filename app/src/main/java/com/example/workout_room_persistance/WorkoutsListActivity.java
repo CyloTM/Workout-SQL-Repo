@@ -17,6 +17,7 @@ import com.example.workout_room_persistance.model.Exercise;
 import com.example.workout_room_persistance.model.Workout;
 //import com.example.workout_room_persistance.model.WorkoutWithExercises;
 import com.example.workout_room_persistance.persistance.ExerciseRepository;
+import com.example.workout_room_persistance.persistance.WorkoutDao;
 import com.example.workout_room_persistance.persistance.WorkoutRepository;
 import com.example.workout_room_persistance.persistance.WorkoutWithExerciseRepository;
 import com.example.workout_room_persistance.util.VerticalSpacingItemDecorator;
@@ -39,6 +40,7 @@ public class WorkoutsListActivity extends AppCompatActivity implements
     private WorkoutsRecyclerAdapter mWorkoutsRecyclerAdapter;
 
     private WorkoutRepository mWorkoutRepository;
+    private WorkoutDao mWorkoutDao;
 //    private WorkoutWithExerciseRepository mWorkoutWithExerciseRepository;
     private ExerciseRepository mExerciseRepository;
 
@@ -49,6 +51,7 @@ public class WorkoutsListActivity extends AppCompatActivity implements
 
         mWorkoutRepository = new WorkoutRepository(this);
         mExerciseRepository = new ExerciseRepository(this);
+        mWorkoutDao.getWorkoutWithExercises();
 //        mWorkoutWithExerciseRepository = new WorkoutWithExerciseRepository(this);
 //        mWorkoutWithExerciseRepository.retrieveWorkoutWithExercisesTask();
 

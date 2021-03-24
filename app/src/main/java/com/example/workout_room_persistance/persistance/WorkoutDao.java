@@ -8,6 +8,7 @@ import androidx.room.Query;
 import androidx.room.Transaction;
 import androidx.room.Update;
 import com.example.workout_room_persistance.model.Workout;
+import com.example.workout_room_persistance.model.WorkoutWithExercises;
 
 import java.util.List;
 
@@ -25,4 +26,8 @@ public interface WorkoutDao {
 
     @Update
     int update(Workout... workouts);
+
+    @Transaction
+    @Query("SELECT * FROM Workouts")
+    public List<WorkoutWithExercises> getWorkoutWithExercises();
 }

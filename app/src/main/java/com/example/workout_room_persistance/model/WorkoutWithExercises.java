@@ -7,11 +7,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class WorkoutWithExercises {
-    @Embedded
-    public Workout workout;
+    @Embedded public Workout workout;
     @Relation(
             parentColumn = "id",
             entityColumn = "workoutId"
     )
-    public List<Exercise> exercises;
+    public List<Exercise> exercise;
 }

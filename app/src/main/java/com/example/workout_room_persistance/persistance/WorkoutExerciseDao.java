@@ -17,16 +17,16 @@ import java.util.List;
 @Dao
 public interface WorkoutExerciseDao {
 
-    @Insert
-    long[] insertWorkouts(Workout... workouts);
-
-    @Insert
-    long[] insertExercise(Exercise... exercise);
+//    @Insert
+//    long[] insertWorkouts(Workout... workouts);
+//
+//    @Insert
+//    long[] insertExercise(Exercise... exercise);
 
 //    @Query("SELECT * FROM workouts")
 //    LiveData<List<Workout>> getAllData();
 
-    @Transaction
-    @Query("SELECT * FROM Workouts")
-    public List<WorkoutWithExercises> getWorkoutWithExercises();
+//    @Transaction
+//    @Query("SELECT * FROM Workouts")
+//    public List<WorkoutWithExercises> getWorkoutWithExercises();
 }

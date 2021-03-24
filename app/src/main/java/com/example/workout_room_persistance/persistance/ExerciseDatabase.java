@@ -10,7 +10,7 @@ import com.example.workout_room_persistance.model.Exercise;
 
 @Database(entities = {Exercise.class}, version=1)
 public abstract class ExerciseDatabase extends RoomDatabase {
-   public static final String DATABASE_NAME = "exercises";
+   public static final String DATABASE_NAME = "exercise";
 
    private static ExerciseDatabase instance;
 
