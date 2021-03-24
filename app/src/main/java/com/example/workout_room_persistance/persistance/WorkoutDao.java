@@ -17,7 +17,6 @@ public interface WorkoutDao {
     @Insert
     long[] insertWorkouts(Workout... workouts);
 
-    @Transaction
     @Query("SELECT * FROM workouts")
     LiveData<List<Workout>> getAllData();
 

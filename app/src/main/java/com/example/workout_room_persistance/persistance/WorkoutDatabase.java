@@ -24,5 +24,6 @@ public abstract class WorkoutDatabase extends RoomDatabase {
     }
 
     public abstract WorkoutDao getWorkoutDao();
+    public abstract WorkoutExerciseDao getWorkoutExerciseDao();
 
 }

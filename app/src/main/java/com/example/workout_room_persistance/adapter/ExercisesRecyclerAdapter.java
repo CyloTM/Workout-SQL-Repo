@@ -51,7 +51,7 @@ public class ExercisesRecyclerAdapter extends RecyclerView.Adapter<ExercisesRecy
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int i) {
-        int[] pos = {0};
+        int[] pos = new int[1];
         holder.title.setText(mExercises.get(i).getTitle());
         holder.repetitions.setText(mExercises.get(i).getRepetitions());
         holder.itemView.setOnClickListener(v -> {
@@ -70,7 +70,10 @@ public class ExercisesRecyclerAdapter extends RecyclerView.Adapter<ExercisesRecy
             }
             else if(mFocusingItem) {
                 notifyItemChanged(pos[0]);
+//                notifyDataSetChanged();
                 Log.d(TAG, "current pos" + pos[0]);
+                pos[0] = (holder.getLayoutPosition());
+                Log.d(TAG, "new pos" + pos[0]);
 
                 mFocusingItem = false;}
 //            else if(holder.getLayoutPosition() != pos[0]) {
