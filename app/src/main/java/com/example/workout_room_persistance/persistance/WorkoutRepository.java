@@ -8,6 +8,7 @@ import com.example.workout_room_persistance.async.DeleteAsyncTask;
 import com.example.workout_room_persistance.async.InsertAsyncTask;
 import com.example.workout_room_persistance.async.UpdateAsyncTask;
 import com.example.workout_room_persistance.model.Workout;
+import com.example.workout_room_persistance.model.WorkoutWithExercises;
 
 import java.util.List;
 
@@ -33,8 +34,8 @@ public class WorkoutRepository {
         return mWorkoutDatabase.getWorkoutDao().getAllData();
     }
 
-    public void retrieveWorkoutWithExercises(){
-        mWorkoutDatabase.getWorkoutDao().getWorkoutWithExercises();
+    public LiveData<List<WorkoutWithExercises>> retrieveWorkoutWithExercises(){
+        return mWorkoutDatabase.getWorkoutDao().getWorkoutWithExercises();
     }
 
     public void deleteWorkout(Workout workout){

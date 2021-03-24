@@ -87,10 +87,10 @@ public class WorkoutsListActivity extends AppCompatActivity implements
             }
             mWorkoutsRecyclerAdapter.notifyDataSetChanged();
         });
-//
-//        mExerciseRepository.retrieveExerciseTask().observe(this, notes -> {
-//
-//        });
+
+        mExerciseRepository.retrieveExerciseTask().observe(this, notes -> {
+
+        });
         mWorkoutRepository.retrieveWorkoutWithExercises();
 
 
@@ -116,6 +116,7 @@ public class WorkoutsListActivity extends AppCompatActivity implements
     public void onClick(View v) {
         Intent intent = new Intent(this, ExerciseListActivity.class);
         startActivity(intent);
+
     }
 
     @Override

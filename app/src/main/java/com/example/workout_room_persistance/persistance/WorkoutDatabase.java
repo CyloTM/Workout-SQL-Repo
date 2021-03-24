@@ -12,13 +12,13 @@ import com.example.workout_room_persistance.model.Workout;
 public abstract class WorkoutDatabase extends RoomDatabase {
    public static final String DATABASE_NAME = "workout_db";
 
-   private static com.example.workout_room_persistance.persistance.WorkoutDatabase instance;
+   private static WorkoutDatabase instance;
 
-   static com.example.workout_room_persistance.persistance.WorkoutDatabase getInstance(final Context context){
+   static WorkoutDatabase getInstance(final Context context){
        if(instance == null)
            instance = Room.databaseBuilder(
                    context.getApplicationContext(),
-                   com.example.workout_room_persistance.persistance.WorkoutDatabase.class,
+                   WorkoutDatabase.class,
                    DATABASE_NAME
            ).build();
        return instance;
