@@ -9,7 +9,7 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "exercise")
+@Entity(tableName = "exercises")
 public class Exercise implements Parcelable {
 
     //Fields

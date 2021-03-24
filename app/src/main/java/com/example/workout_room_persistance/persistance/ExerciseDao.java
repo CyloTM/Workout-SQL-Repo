@@ -19,7 +19,7 @@ public interface ExerciseDao {
     @Insert
     long[] insertExercise(Exercise... exercise);
 
-    @Query("SELECT * FROM exercise")
+    @Query("SELECT * FROM exercises")
     LiveData<List<Exercise>> getAllData();
 
     @Delete

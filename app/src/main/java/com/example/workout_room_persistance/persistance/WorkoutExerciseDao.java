@@ -22,11 +22,11 @@ public interface WorkoutExerciseDao {
 
     @Insert
     long[] insertExercise(Exercise... exercise);
-//
+
 //    @Query("SELECT * FROM workouts")
 //    LiveData<List<Workout>> getAllData();
 
     @Transaction
-    @Query("SELECT * FROM workouts")
+    @Query("SELECT * FROM Workouts")
     public List<WorkoutWithExercises> getWorkoutWithExercises();
 }

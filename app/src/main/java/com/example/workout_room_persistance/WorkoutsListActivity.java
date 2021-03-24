@@ -15,7 +15,7 @@ import android.view.View;
 import com.example.workout_room_persistance.adapter.WorkoutsRecyclerAdapter;
 import com.example.workout_room_persistance.model.Exercise;
 import com.example.workout_room_persistance.model.Workout;
-import com.example.workout_room_persistance.model.WorkoutWithExercises;
+//import com.example.workout_room_persistance.model.WorkoutWithExercises;
 import com.example.workout_room_persistance.persistance.ExerciseRepository;
 import com.example.workout_room_persistance.persistance.WorkoutRepository;
 import com.example.workout_room_persistance.persistance.WorkoutWithExerciseRepository;
@@ -39,7 +39,7 @@ public class WorkoutsListActivity extends AppCompatActivity implements
     private WorkoutsRecyclerAdapter mWorkoutsRecyclerAdapter;
 
     private WorkoutRepository mWorkoutRepository;
-    private WorkoutWithExerciseRepository mWorkoutWithExerciseRepository;
+//    private WorkoutWithExerciseRepository mWorkoutWithExerciseRepository;
     private ExerciseRepository mExerciseRepository;
 
     @Override
@@ -49,7 +49,8 @@ public class WorkoutsListActivity extends AppCompatActivity implements
 
         mWorkoutRepository = new WorkoutRepository(this);
         mExerciseRepository = new ExerciseRepository(this);
-        mWorkoutWithExerciseRepository = new WorkoutWithExerciseRepository(this);
+//        mWorkoutWithExerciseRepository = new WorkoutWithExerciseRepository(this);
+//        mWorkoutWithExerciseRepository.retrieveWorkoutWithExercisesTask();
 
 
         mRecyclerView = findViewById(R.id.recycler_view);
@@ -73,27 +74,21 @@ public class WorkoutsListActivity extends AppCompatActivity implements
 
     }
     private void retrieveWorkouts(){
-        mWorkoutRepository.retrieveWorkoutTask().observe(this, new Observer<List<Workout>>() {
-            @Override
-            public void onChanged(List<Workout> notes) {
-                if(mWorkouts.size()>0){
-                    mWorkouts.clear();
-                }
-                if(notes!=null){
-                    mWorkouts.addAll(notes);
-                }
-                mWorkoutsRecyclerAdapter.notifyDataSetChanged();
+        mWorkoutRepository.retrieveWorkoutTask().observe(this, notes -> {
+            if(mWorkouts.size()>0){
+                mWorkouts.clear();
             }
+            if(notes!=null){
+                mWorkouts.addAll(notes);
+            }
+            mWorkoutsRecyclerAdapter.notifyDataSetChanged();
         });
 
-        mExerciseRepository.retrieveExerciseTask().observe(this, new Observer<List<Exercise>>() {
-            @Override
-            public void onChanged(List<Exercise> notes) {
+        mExerciseRepository.retrieveExerciseTask().observe(this, notes -> {
 
-            }
         });
 
-        mWorkoutWithExerciseRepository.retrieveWorkoutWithExercisesTask();
+
     }
 
     public void insertFakeWorkouts(){

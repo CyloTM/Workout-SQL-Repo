@@ -2,10 +2,10 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "b6b3de81ebcab446ac6b8cb3bfc54cb1",
+    "identityHash": "b2b3b0868f6b2194043aeb7ae3b0a998",
     "entities": [
       {
-        "tableName": "exercise",
+        "tableName": "exercises",
         "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `workoutId` INTEGER NOT NULL, `title` TEXT NOT NULL, `repetitions` TEXT)",
         "fields": [
           {
@@ -46,7 +46,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'b6b3de81ebcab446ac6b8cb3bfc54cb1')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'b2b3b0868f6b2194043aeb7ae3b0a998')"
     ]
   }
 }

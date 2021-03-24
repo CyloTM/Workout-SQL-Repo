@@ -12,7 +12,7 @@ import com.example.workout_room_persistance.async.InsertAsyncTask;
 import com.example.workout_room_persistance.async.UpdateAsyncTask;
 import com.example.workout_room_persistance.model.Exercise;
 import com.example.workout_room_persistance.model.Workout;
-import com.example.workout_room_persistance.model.WorkoutWithExercises;
+//import com.example.workout_room_persistance.model.WorkoutWithExercises;
 
 import java.util.List;
 
@@ -36,9 +36,9 @@ public class WorkoutWithExerciseRepository {
 
     }
 
-    public List<WorkoutWithExercises> retrieveWorkoutWithExercisesTask(){
-        return mWorkoutDatabase.getWorkoutExerciseDao().getWorkoutWithExercises();
-    }
+//    public List<WorkoutWithExercises> retrieveWorkoutWithExercisesTask(){
+//        return mWorkoutDatabase.getWorkoutExerciseDao().getWorkoutWithExercises();
+//    }
 
     public void deleteWorkout(Workout workout){
         new DeleteAsyncTask(mWorkoutDatabase.getWorkoutDao()).execute(workout);

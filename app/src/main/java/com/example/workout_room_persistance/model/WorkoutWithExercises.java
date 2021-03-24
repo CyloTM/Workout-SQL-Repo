@@ -13,5 +13,5 @@ public class WorkoutWithExercises {
             parentColumn = "id",
             entityColumn = "workoutId"
     )
-    public Exercises exercises;
+    public List<Exercise> exercises;
 }
