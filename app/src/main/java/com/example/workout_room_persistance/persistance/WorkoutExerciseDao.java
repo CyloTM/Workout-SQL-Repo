@@ -20,20 +20,8 @@ public interface WorkoutExerciseDao {
     @Insert
     long[] insertWorkouts(Workout... workouts);
 
-    @Delete
-    int delete(Workout... workouts);
-
-    @Update
-    int update(Workout... workouts);
-
     @Insert
     long[] insertExercise(Exercise... exercise);
-
-    @Delete
-    int delete(Exercise... exercise);
-
-    @Update
-    int update(Exercise... exercise);
 //
 //    @Query("SELECT * FROM workouts")
 //    LiveData<List<Workout>> getAllData();

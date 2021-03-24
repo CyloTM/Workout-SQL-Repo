@@ -9,13 +9,25 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "exercises")
+@Entity
 public class Exercise implements Parcelable {
 
     //Fields
     //Primary Key
     @PrimaryKey(autoGenerate = true)
     private int id;
+
+    public int getWorkoutId() {
+        return workoutId;
+    }
+
+    public void setWorkoutId(int workoutId) {
+        this.workoutId = workoutId;
+    }
+
+    @NonNull
+    @ColumnInfo(name = "workoutId")
+    private int workoutId;
 
     @NonNull
     @ColumnInfo(name = "title")
