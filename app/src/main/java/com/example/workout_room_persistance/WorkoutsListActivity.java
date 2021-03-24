@@ -93,12 +93,7 @@ public class WorkoutsListActivity extends AppCompatActivity implements
             }
         });
 
-        mWorkoutWithExerciseRepository.retrieveWorkoutWithExercisesTask().observe(this, (Observer<? super List<WorkoutWithExercises>>) new Observer<List<Exercise>>() {
-            @Override
-            public void onChanged(List<Exercise> notes) {
-
-            }
-        });
+        mWorkoutWithExerciseRepository.retrieveWorkoutWithExercisesTask();
     }
 
     public void insertFakeWorkouts(){

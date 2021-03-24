@@ -36,8 +36,8 @@ public class WorkoutWithExerciseRepository {
 
     }
 
-    public LiveData<List<WorkoutWithExercises>> retrieveWorkoutWithExercisesTask(){
-        return (LiveData<List<WorkoutWithExercises>>) mWorkoutDatabase.getWorkoutExerciseDao().getWorkoutWithExercises();
+    public List<WorkoutWithExercises> retrieveWorkoutWithExercisesTask(){
+        return mWorkoutDatabase.getWorkoutExerciseDao().getWorkoutWithExercises();
     }
 
     public void deleteWorkout(Workout workout){
