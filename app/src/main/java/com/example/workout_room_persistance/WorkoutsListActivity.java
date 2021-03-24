@@ -51,7 +51,8 @@ public class WorkoutsListActivity extends AppCompatActivity implements
 
         mWorkoutRepository = new WorkoutRepository(this);
         mExerciseRepository = new ExerciseRepository(this);
-        mWorkoutDao.getWorkoutWithExercises();
+
+//        mWorkoutDao.getWorkoutWithExercises();
 //        mWorkoutWithExerciseRepository = new WorkoutWithExerciseRepository(this);
 //        mWorkoutWithExerciseRepository.retrieveWorkoutWithExercisesTask();
 
@@ -86,10 +87,11 @@ public class WorkoutsListActivity extends AppCompatActivity implements
             }
             mWorkoutsRecyclerAdapter.notifyDataSetChanged();
         });
-
-        mExerciseRepository.retrieveExerciseTask().observe(this, notes -> {
-
-        });
+//
+//        mExerciseRepository.retrieveExerciseTask().observe(this, notes -> {
+//
+//        });
+        mWorkoutRepository.retrieveWorkoutWithExercises();
 
 
     }
