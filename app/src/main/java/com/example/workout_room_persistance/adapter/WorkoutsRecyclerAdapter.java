@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.workout_room_persistance.R;
 import com.example.workout_room_persistance.model.Workout;
+import com.example.workout_room_persistance.model.WorkoutWithExercises;
 
 import java.util.ArrayList;
 
@@ -16,11 +17,11 @@ public class WorkoutsRecyclerAdapter extends RecyclerView.Adapter<WorkoutsRecycl
 
     private static final String TAG = "WorkoutRecyclerAdapter";
 
-    private ArrayList <Workout> mWorkouts;
+    private ArrayList <WorkoutWithExercises> mWorkouts;
 
     private OnWorkoutListener mOnWorkoutListener;
 
-    public WorkoutsRecyclerAdapter(ArrayList<Workout> workouts, OnWorkoutListener onWorkoutListener) {
+    public WorkoutsRecyclerAdapter(ArrayList<WorkoutWithExercises> workouts, OnWorkoutListener onWorkoutListener) {
         this.mWorkouts = workouts;
         this.mOnWorkoutListener = onWorkoutListener;
 
@@ -37,7 +38,7 @@ public class WorkoutsRecyclerAdapter extends RecyclerView.Adapter<WorkoutsRecycl
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int i) {
-        holder.title.setText(mWorkouts.get(i).getTitle());
+        holder.title.setText(mWorkouts.get(i).getWorkout().getTitle());
     }
 
     @Override

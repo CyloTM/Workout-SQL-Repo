@@ -9,7 +9,6 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity(tableName = "workouts")
@@ -29,14 +28,31 @@ public class Workout implements Parcelable {
 
 
     public Workout(String title) {
-
         this.title = title;
 //        this.exercises = exercises;
     }
 
     @Ignore
-    public Workout(){
+    public Workout(String title, List<Exercise> exercises) {
+        super();
+        this.title = title;
+        this.exercises = exercises;
+    }
 
+    @Ignore
+    public Workout() {
+
+    }
+
+    @Ignore
+    private List<Exercise> exercises = null;
+
+    public List<Exercise> getExercises() {
+        return exercises;
+    }
+
+    public void setExercises(List<Exercise> exercises) {
+        this.exercises = exercises;
     }
 
     protected Workout(Parcel in) {
@@ -90,7 +106,6 @@ public class Workout implements Parcelable {
                 '}';
     }
 
-
     @Override
     public int describeContents() {
         return 0;
@@ -103,4 +118,12 @@ public class Workout implements Parcelable {
 //        dest.writeValue(exercises);
     }
 
+    public Workout(WorkoutWithExercises workoutWithExercises) {
+        this.id = workoutWithExercises.getWorkout().getId();
+        this.title = workoutWithExercises.getWorkout().getTitle();
+        this.exercises = workoutWithExercises.getWorkout().getExercises();
+    }
+
+
 }
+

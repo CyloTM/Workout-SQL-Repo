@@ -10,7 +10,24 @@ public class WorkoutWithExercises {
     @Embedded public Workout workout;
     @Relation(
             parentColumn = "id",
-            entityColumn = "workoutId"
+            entityColumn = "workoutId",
+            entity = Exercise.class
     )
     public List<Exercise> exercises;
+
+    public Workout getWorkout() {
+        return workout;
+    }
+
+    public void setWorkout(Workout workout) {
+        this.workout = workout;
+    }
+
+    public List<Exercise> getExercises() {
+        return exercises;
+    }
+
+    public void setExercises(List<Exercise> exercises) {
+        this.exercises = exercises;
+    }
 }

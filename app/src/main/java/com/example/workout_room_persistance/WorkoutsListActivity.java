@@ -2,7 +2,6 @@ package com.example.workout_room_persistance;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -13,17 +12,15 @@ import android.util.Log;
 import android.view.View;
 
 import com.example.workout_room_persistance.adapter.WorkoutsRecyclerAdapter;
-import com.example.workout_room_persistance.model.Exercise;
 import com.example.workout_room_persistance.model.Workout;
 //import com.example.workout_room_persistance.model.WorkoutWithExercises;
+import com.example.workout_room_persistance.model.WorkoutWithExercises;
 import com.example.workout_room_persistance.persistance.ExerciseRepository;
 import com.example.workout_room_persistance.persistance.WorkoutDao;
 import com.example.workout_room_persistance.persistance.WorkoutRepository;
-import com.example.workout_room_persistance.persistance.WorkoutWithExerciseRepository;
 import com.example.workout_room_persistance.util.VerticalSpacingItemDecorator;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class WorkoutsListActivity extends AppCompatActivity implements
         WorkoutsRecyclerAdapter.OnWorkoutListener,
@@ -36,7 +33,7 @@ public class WorkoutsListActivity extends AppCompatActivity implements
     private RecyclerView mRecyclerView;
 
     // Variables
-    private ArrayList<Workout> mWorkouts = new ArrayList();
+    private ArrayList<WorkoutWithExercises> mWorkouts = new ArrayList();
     private WorkoutsRecyclerAdapter mWorkoutsRecyclerAdapter;
 
     private WorkoutRepository mWorkoutRepository;
@@ -78,20 +75,24 @@ public class WorkoutsListActivity extends AppCompatActivity implements
 
     }
     private void retrieveWorkouts(){
-        mWorkoutRepository.retrieveWorkoutTask().observe(this, notes -> {
-            if(mWorkouts.size()>0){
-                mWorkouts.clear();
-            }
-            if(notes!=null){
-                mWorkouts.addAll(notes);
-            }
+//        mWorkoutRepository.retrieveWorkoutTask().observe(this, notes -> {
+//            if(mWorkouts.size()>0){
+//                mWorkouts.clear();
+//            }
+//            if(notes!=null){
+//                mWorkouts.addAll(notes);
+//            }
+//            mWorkoutsRecyclerAdapter.notifyDataSetChanged();
+//        });
+
+//        mExerciseRepository.retrieveExerciseTask().observe(this, notes -> {
+//
+//        });
+        mWorkoutRepository.retrieveWorkoutWithExercises().observe(this, workoutWithExercises -> {
+            mWorkouts.addAll(workoutWithExercises);
             mWorkoutsRecyclerAdapter.notifyDataSetChanged();
+//
         });
-
-        mExerciseRepository.retrieveExerciseTask().observe(this, notes -> {
-
-        });
-        mWorkoutRepository.retrieveWorkoutWithExercises();
 
 
     }
@@ -99,17 +100,17 @@ public class WorkoutsListActivity extends AppCompatActivity implements
     public void insertFakeWorkouts(){
         for(int i = 0;i<1000; i++){
 
-            Workout noteFake = new Workout();
-            noteFake.setTitle("Workout #"+ i);
-            mWorkouts.add(noteFake);
+//            WorkoutWithExercises noteFake = new Workout();
+//            noteFake.setTitle("Workout #"+ i);
+//            mWorkouts.add(noteFake);
         }
         mWorkoutsRecyclerAdapter.notifyDataSetChanged();
     }
 
-    private void deleteWorkout(Workout workout){
+    private void deleteWorkout(WorkoutWithExercises workout){
         mWorkouts.remove(workout);
         mWorkoutsRecyclerAdapter.notifyDataSetChanged();
-        mWorkoutRepository.deleteWorkout(workout);
+//        mWorkoutRepository.deleteWorkout(workout);
     }
 
     @Override
@@ -123,7 +124,7 @@ public class WorkoutsListActivity extends AppCompatActivity implements
     public void onWorkoutClicked(int position) {
         Log.d(TAG, "Note " + position + " has been clicked");
         Intent intent = new Intent(this, ExerciseListActivity.class);
-        intent.putExtra("selected_workout", mWorkouts.get(position));
+//        intent.putExtra("selected_workout", mWorkouts.get(position));
         startActivity(intent);
 
     }

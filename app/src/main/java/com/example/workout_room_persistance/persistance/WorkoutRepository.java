@@ -30,9 +30,9 @@ public class WorkoutRepository {
 
     }
 
-    public LiveData<List<Workout>> retrieveWorkoutTask(){
-        return mWorkoutDatabase.getWorkoutDao().getAllData();
-    }
+//    public LiveData<List<Workout>> retrieveWorkoutTask(){
+//        return mWorkoutDatabase.getWorkoutDao().getAllData();
+//    }
 
     public LiveData<List<WorkoutWithExercises>> retrieveWorkoutWithExercises(){
         return mWorkoutDatabase.getWorkoutDao().getWorkoutWithExercises();

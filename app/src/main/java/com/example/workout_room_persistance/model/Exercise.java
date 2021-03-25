@@ -6,8 +6,11 @@ import android.os.Parcelable;
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.ForeignKey;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
+
+import static androidx.room.ForeignKey.CASCADE;
 
 @Entity(tableName = "exercises")
 public class Exercise implements Parcelable {
@@ -16,10 +19,6 @@ public class Exercise implements Parcelable {
     //Primary Key
     @PrimaryKey(autoGenerate = true)
     private int id;
-
-    @NonNull
-    @ColumnInfo(name = "workoutId")
-    private int workoutId;
 
     @NonNull
     @ColumnInfo(name = "title")
@@ -102,4 +101,11 @@ public class Exercise implements Parcelable {
         dest.writeString(repetitions);
 
     }
+
+    @ForeignKey
+            (entity = Workout.class,
+                    parentColumns = "id",
+                    childColumns = "publisherId",
+                    onDelete = CASCADE)
+    private int workoutId;
 }

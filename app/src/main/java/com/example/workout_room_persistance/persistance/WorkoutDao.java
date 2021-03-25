@@ -18,8 +18,8 @@ public interface WorkoutDao {
     @Insert
     long[] insertWorkouts(Workout... workouts);
 
-    @Query("SELECT * FROM workouts")
-    LiveData<List<Workout>> getAllData();
+//    @Query("SELECT * FROM workouts")
+//    LiveData<List<Workout>> getAllData();
 
     @Delete
     int delete(Workout... workouts);
@@ -28,7 +28,7 @@ public interface WorkoutDao {
     int update(Workout... workouts);
 
     @Transaction
-    @Query("SELECT * FROM Workouts")
+    @Query("SELECT * FROM workouts")
     LiveData<List<WorkoutWithExercises>> getWorkoutWithExercises();
 
 }
