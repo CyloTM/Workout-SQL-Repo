@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -12,9 +13,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.workout_room_persistance.R;
 import com.example.workout_room_persistance.model.Exercise;
+import com.example.workout_room_persistance.persistance.WorkoutRepository;
 
 import java.util.ArrayList;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class ExercisesRecyclerAdapter extends RecyclerView.Adapter<ExercisesRecyclerAdapter.ViewHolder>{
 
@@ -24,20 +25,11 @@ public class ExercisesRecyclerAdapter extends RecyclerView.Adapter<ExercisesRecy
 
     private OnExerciseListener mOnExerciseListener;
 
-    private static final int EDIT_MODE_ENABLED = 1;
-    private static final int EDIT_MODE_DISABLED = 0;
-    private int mMode = EDIT_MODE_DISABLED;
-    private int mFocusedItem;
-    private boolean mFocusingItem = false;
-    private Exercise current;
-
-    private TextView repetitions;
-    private EditText editTextRepetitions;
+    private WorkoutRepository mWorkoutRepository;
 
     public ExercisesRecyclerAdapter(ArrayList<Exercise> exercise, OnExerciseListener onExerciseListener) {
         this.mExercises = exercise;
         this.mOnExerciseListener = onExerciseListener;
-
 
     }
 
@@ -51,97 +43,19 @@ public class ExercisesRecyclerAdapter extends RecyclerView.Adapter<ExercisesRecy
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int i) {
-        int[] pos = new int[1];
         holder.title.setText(mExercises.get(i).getTitle());
         holder.repetitions.setText(mExercises.get(i).getRepetitions());
-        holder.itemView.setOnClickListener(v -> {
-            if(!mFocusingItem){
-                holder.repetitions.setVisibility(View.GONE);
-                holder.editTextRepetitions.setVisibility(View.VISIBLE);
-//            editTextRepetitions.setFocusable(true);
-//            editTextRepetitions.setFocusableInTouchMode(true);
-                holder.editTextRepetitions.setCursorVisible(true);
-                holder.editTextRepetitions.requestFocus();
-                current = mExercises.get(i);
-                pos[0] = (holder.getLayoutPosition());
-                mOnExerciseListener.onExerciseClicked(holder.getLayoutPosition());
-                mFocusingItem=true;
-
-            }
-            else if(mFocusingItem) {
-                notifyItemChanged(pos[0]);
-//                notifyDataSetChanged();
-                Log.d(TAG, "current pos" + pos[0]);
-                pos[0] = (holder.getLayoutPosition());
-                Log.d(TAG, "new pos" + pos[0]);
-
-                mFocusingItem = false;}
-//            else if(holder.getLayoutPosition() != pos[0]) {
-//                notifyItemChanged(pos[0]);
-//                holder.disableRepetitionEditMode(current.getId());
-//                holder.disableRepetitionEditMode(pos[0]);
-//                if(holder.editTextRepetitions.getText().toString().equals("")){
-//                    current.setRepetitions("0");
-//                }
-//                else{current.setRepetitions(holder.editTextRepetitions.getText().toString());}
-//                Log.d(TAG, "disabled edit mode");
-//                Log.d(TAG, "current =" + current.getTitle());
-//                holder.repetitions.setVisibility(View.VISIBLE);
-//                holder.editTextRepetitions.setVisibility(View.GONE);
-////            editTextRepetitions.setFocusable(false);
-////            editTextRepetitions.setFocusableInTouchMode(false);
-//                holder.editTextRepetitions.setCursorVisible(false);
-//                holder.editTextRepetitions.clearFocus();
-//                mFocusingItem=false;
-//            }
-//
-
-//            holder.itemView.setOnClickListener(v -> {
-//                        if (mFocusingItem) {
-////                int position = mOnExerciseListener.onExerciseClicked(holder.getLayoutPosition());
-////                    holder.disableRepetitionEditMode(position);
-////                    Log.d(TAG, "disabled edit mode");
-//////                    repetitions.setVisibility(View.VISIBLE);
-//////                    holder.editTextRepetitions.setVisibility(View.GONE);
-//////                    holder.editTextRepetitions.setCursorVisible(false);
-//////                    holder.editTextRepetitions.clearFocus();
-////                    notifyDataSetChanged();
-//                        }
-//                    }
-//            );
+        holder.check.setOnClickListener(v -> {
+            holder.disableEditMode();
+//            updateExercise(i);
+            mExercises.get(i).setTitle(holder.title.getText().toString());
+            mExercises.get(i).setRepetitions(holder.repetitions.getText().toString());
+            Log.d(TAG, "disabled edit mode "+ holder.repetitions.getText().toString()+ " " +holder.title.getText().toString());
+            notifyDataSetChanged();
+//            mWorkoutRepository.updateExercise(mExercises.get(i));
         });
+        holder.itemView.setOnClickListener(v -> holder.enableEditMode());
     }
-
-    public void enableRepetitionEditMode(){
-        repetitions.setVisibility(View.GONE);
-        editTextRepetitions.setVisibility(View.VISIBLE);
-//            editTextRepetitions.setFocusable(true);
-//            editTextRepetitions.setFocusableInTouchMode(true);
-        editTextRepetitions.setCursorVisible(true);
-        editTextRepetitions.requestFocus();
-
-        mMode = EDIT_MODE_ENABLED;
-    }
-
-    public void disableRepetitionEditMode() {
-        Exercise exercise = current;
-        if(editTextRepetitions.getText().toString().equals("")){
-            current.setRepetitions("0");
-        }
-        else{repetitions.setText(editTextRepetitions.getText().toString());}
-        Log.d(TAG, "disabled edit mode");
-
-        repetitions.setVisibility(View.VISIBLE);
-        editTextRepetitions.setVisibility(View.GONE);
-//            editTextRepetitions.setFocusable(false);
-//            editTextRepetitions.setFocusableInTouchMode(false);
-        editTextRepetitions.setCursorVisible(false);
-        editTextRepetitions.clearFocus();
-        mMode = EDIT_MODE_DISABLED;
-        mFocusingItem=false;
-    }
-
-
 
     @Override
     public int getItemViewType(int position) {
@@ -153,80 +67,57 @@ public class ExercisesRecyclerAdapter extends RecyclerView.Adapter<ExercisesRecy
         return mExercises.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    private void updateExercise(int position){mWorkoutRepository.updateExercise(mExercises.get(position));}
+
+    public class ViewHolder extends RecyclerView.ViewHolder{
+        ImageView check;
         TextView title, repetitions;
-        EditText editTextRepetitions;
+        EditText editTextRepetitions, editTextTitle;
         OnExerciseListener mOnExerciseListener;
 
         public ViewHolder(@NonNull View itemView, OnExerciseListener onExerciseListener) {
             super(itemView);
+
             //Connect to (note list item) Layout
+            check = itemView.findViewById(R.id.image_view_check);
             title = itemView.findViewById(R.id.text_view_title);
             repetitions= itemView.findViewById(R.id.text_view_repetitions);
             editTextRepetitions= itemView.findViewById(R.id.edit_text_repetitions);
+            editTextTitle = itemView.findViewById(R.id.edit_text_title);
             this.mOnExerciseListener = onExerciseListener;
-
-            itemView.setOnClickListener(this);
         }
 
-        @Override
-        public void onClick(View v) {
-//
-//            if(!mFocusingItem){
-//                enableRepetitionEditMode();
-//
-//                mFocusingItem=true;
-//
-//            }
-//            else if(mFocusingItem) {
-//                disableRepetitionEditMode();
-//                Log.d(TAG, "disabled oLD EDITMODE");
-//
-//            }
-//            else {disableRepetitionEditMode();}
-//
-////            if (!focusingItem){
-////                v.setSelected(true);
-////                focusingItem = true;
-////                focusedItem = getLayoutPosition();
-////            }
-////            else if (focusedItem == getLayoutPosition()){
-////                v.setSelected(false);
-////                focusingItem = false;
-////            }
-
-        }
-
-        public void enableRepetitionEditMode(){
+        public void enableEditMode(){
             repetitions.setVisibility(View.GONE);
+            title.setVisibility(View.GONE);
             editTextRepetitions.setVisibility(View.VISIBLE);
-//            editTextRepetitions.setFocusable(true);
-//            editTextRepetitions.setFocusableInTouchMode(true);
+            editTextTitle.setVisibility(View.VISIBLE);
             editTextRepetitions.setCursorVisible(true);
-            editTextRepetitions.requestFocus();
-            mFocusedItem = getLayoutPosition();
+            editTextTitle.requestFocus();
+//            mFocusedItem = getLayoutPosition();
 
-            mMode = EDIT_MODE_ENABLED;
+//            mMode = EDIT_MODE_ENABLED;
         }
 
-        public void disableRepetitionEditMode(int position) {
-            current = mExercises.get(position);
-
+        public void disableEditMode() {
+            title.setText(editTextTitle.getText().toString());
+            repetitions.setText(editTextRepetitions.getText().toString());
             if(editTextRepetitions.getText().toString().equals("")){
-//                current.setRepetitions("0");
-                this.repetitions.setText("0");
+                repetitions.setText("0");
             }
-            else{this.repetitions.setText(editTextRepetitions.getText().toString());}
-            Log.d(TAG, "disabled edit mode");
+            if(editTextTitle.getText().toString().equals("")){
+                title.setText("New Exercise");
+            }
 
-            this.repetitions.setVisibility(View.VISIBLE);
-            this.editTextRepetitions.setVisibility(View.GONE);
-//            editTextRepetitions.setFocusable(false);
-//            editTextRepetitions.setFocusableInTouchMode(false);
-            this.editTextRepetitions.setCursorVisible(false);
-            this.editTextRepetitions.clearFocus();
-            mMode = EDIT_MODE_DISABLED;
-            mFocusingItem=false;
+
+            title.setVisibility(View.VISIBLE);
+            repetitions.setVisibility(View.VISIBLE);
+            editTextRepetitions.setVisibility(View.GONE);
+            editTextTitle.setVisibility(View.GONE);
+            editTextRepetitions.setCursorVisible(false);
+            editTextRepetitions.clearFocus();
+//            notifyItemChanged(getLayoutPosition());
+//            mMode = EDIT_MODE_DISABLED;
         }
     }
 
@@ -234,11 +125,5 @@ public class ExercisesRecyclerAdapter extends RecyclerView.Adapter<ExercisesRecy
     public interface OnExerciseListener {
         int onExerciseClicked(int position);
     }
-
-
-
-
-
-
 
 }

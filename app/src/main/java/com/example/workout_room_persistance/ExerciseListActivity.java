@@ -184,7 +184,7 @@ public class ExerciseListActivity extends AppCompatActivity implements
         mExercises.add(mExercise);
         mWorkoutRepository.insertExerciseTask(mExercise);
     }
-//    private void updateExercise(){mExerciseRepository.updateExercise(mExercises);}
+
 
     private void setWorkoutProperties(){
         mEditTextTitle.setText(mInitialWorkout.getTitle());
@@ -382,8 +382,11 @@ public class ExerciseListActivity extends AppCompatActivity implements
         }
     };
 
+
     @Override
     public int onExerciseClicked(int position) {
+
+        mWorkoutRepository.updateExercise(mExercises.get(position));
     return position;
     }
 

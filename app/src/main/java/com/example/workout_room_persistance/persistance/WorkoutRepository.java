@@ -7,6 +7,7 @@ import androidx.lifecycle.LiveData;
 import com.example.workout_room_persistance.async.DeleteAsyncTask;
 import com.example.workout_room_persistance.async.ExerciseDeleteAsyncTask;
 import com.example.workout_room_persistance.async.ExerciseInsertAsyncTask;
+import com.example.workout_room_persistance.async.ExerciseUpdateAsyncTask;
 import com.example.workout_room_persistance.async.InsertAsyncTask;
 import com.example.workout_room_persistance.async.UpdateAsyncTask;
 import com.example.workout_room_persistance.model.Exercise;
@@ -44,6 +45,10 @@ public class WorkoutRepository {
     public void insertExerciseTask(Exercise exercise){
         new ExerciseInsertAsyncTask(mWorkoutDatabase.getWorkoutDao()).execute(exercise);
 
+    }
+
+    public void updateExercise(Exercise exercise){
+        new ExerciseUpdateAsyncTask(mWorkoutDatabase.getWorkoutDao()).execute(exercise);
     }
 
     public void deleteExercise(Exercise exercise){
