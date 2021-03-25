@@ -23,42 +23,19 @@ public class Workout implements Parcelable {
     @ColumnInfo(name = "title")
     private String title;
 
-//    @ColumnInfo(name = "exercises")
-//    private ArrayList<Exercise> exercises;
-
-
     public Workout(String title) {
         this.title = title;
-//        this.exercises = exercises;
     }
 
-    @Ignore
-    public Workout(String title, List<Exercise> exercises) {
-        super();
-        this.title = title;
-        this.exercises = exercises;
-    }
 
     @Ignore
     public Workout() {
 
     }
 
-    @Ignore
-    private List<Exercise> exercises = null;
-
-    public List<Exercise> getExercises() {
-        return exercises;
-    }
-
-    public void setExercises(List<Exercise> exercises) {
-        this.exercises = exercises;
-    }
-
     protected Workout(Parcel in) {
         id = in.readInt();
         title = in.readString();
-        exercises = (List<Exercise>) in.readValue(Exercise.class.getClassLoader());
     }
 
     public static final Creator<Workout> CREATOR = new Creator<Workout>() {
@@ -102,7 +79,6 @@ public class Workout implements Parcelable {
         return "Note{" +
                 "id =" + id +
                 "title='" + title + '\'' +
-                ", exercises='" + exercises + '\'' +
                 '}';
     }
 
@@ -115,15 +91,6 @@ public class Workout implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(id);
         dest.writeString(title);
-        dest.writeValue(exercises);
     }
-
-    public Workout(WorkoutWithExercises workoutWithExercises) {
-        this.id = workoutWithExercises.getWorkout().getId();
-        this.title = workoutWithExercises.getWorkout().getTitle();
-        this.exercises = workoutWithExercises.getWorkout().getExercises();
-    }
-
-
 }
 

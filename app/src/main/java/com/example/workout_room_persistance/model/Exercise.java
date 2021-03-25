@@ -27,6 +27,9 @@ public class Exercise implements Parcelable {
     @ColumnInfo(name = "repetitions")
     private String repetitions;
 
+    @ColumnInfo(name = "workoutId")
+    private int workoutId;
+
     public Exercise(@NonNull String title, String repetitions) {
         this.title = title;
         this.repetitions = repetitions;
@@ -36,7 +39,6 @@ public class Exercise implements Parcelable {
     public Exercise(){
 
     }
-
     public int getWorkoutId() {
         return workoutId;
     }
@@ -102,10 +104,4 @@ public class Exercise implements Parcelable {
 
     }
 
-    @ForeignKey
-            (entity = Workout.class,
-                    parentColumns = "id",
-                    childColumns = "workoutId",
-                    onDelete = CASCADE)
-    private int workoutId;
 }

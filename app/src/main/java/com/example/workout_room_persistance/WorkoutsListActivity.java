@@ -14,9 +14,6 @@ import android.view.View;
 import com.example.workout_room_persistance.adapter.WorkoutsRecyclerAdapter;
 //import com.example.workout_room_persistance.model.WorkoutWithExercises;
 import com.example.workout_room_persistance.model.Workout;
-import com.example.workout_room_persistance.model.WorkoutWithExercises;
-import com.example.workout_room_persistance.persistance.ExerciseRepository;
-import com.example.workout_room_persistance.persistance.WorkoutDao;
 import com.example.workout_room_persistance.persistance.WorkoutRepository;
 import com.example.workout_room_persistance.util.VerticalSpacingItemDecorator;
 
@@ -33,14 +30,10 @@ public class WorkoutsListActivity extends AppCompatActivity implements
     private RecyclerView mRecyclerView;
 
     // Variables
-    private ArrayList<WorkoutWithExercises> mWorkoutWithExercises = new ArrayList();
     private ArrayList<Workout> mWorkouts= new ArrayList();
     private WorkoutsRecyclerAdapter mWorkoutsRecyclerAdapter;
 
     private WorkoutRepository mWorkoutRepository;
-    private WorkoutDao mWorkoutDao;
-//    private WorkoutWithExerciseRepository mWorkoutWithExerciseRepository;
-    private ExerciseRepository mExerciseRepository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,18 +41,11 @@ public class WorkoutsListActivity extends AppCompatActivity implements
         setContentView(R.layout.activity_workout_list);
 
         mWorkoutRepository = new WorkoutRepository(this);
-        mExerciseRepository = new ExerciseRepository(this);
-
-//        mWorkoutDao.getWorkoutWithExercises();
-//        mWorkoutWithExerciseRepository = new WorkoutWithExerciseRepository(this);
-//        mWorkoutWithExerciseRepository.retrieveWorkoutWithExercisesTask();
-
 
         mRecyclerView = findViewById(R.id.recycler_view);
         findViewById(R.id.fab).setOnClickListener(this);
         initRecyclerView();
         retrieveWorkouts();
-//        insertFakeWorkouts();
 
         setSupportActionBar(findViewById(R.id.workout_list_toolbar));
         setTitle("Workouts");
@@ -71,47 +57,26 @@ public class WorkoutsListActivity extends AppCompatActivity implements
         VerticalSpacingItemDecorator itemDecorator = new VerticalSpacingItemDecorator(10);
         mRecyclerView.addItemDecoration(itemDecorator);
         new ItemTouchHelper(itemTouchHelperCallBack).attachToRecyclerView(mRecyclerView);
-        mWorkoutsRecyclerAdapter = new WorkoutsRecyclerAdapter(mWorkoutWithExercises, this);
+        mWorkoutsRecyclerAdapter = new WorkoutsRecyclerAdapter(mWorkouts, this);
         mRecyclerView.setAdapter(mWorkoutsRecyclerAdapter);
 
     }
     private void retrieveWorkouts(){
-        mWorkoutRepository.retrieveWorkoutTask().observe(this, notes -> {
+        mWorkoutRepository.retrieveWorkoutTask().observe(this, workouts -> {
             if(mWorkouts.size()>0){
                 mWorkouts.clear();
             }
-            if(notes!=null){
-                mWorkouts.addAll(notes);
+            if(workouts!=null){
+                mWorkouts.addAll(workouts);
             }
             mWorkoutsRecyclerAdapter.notifyDataSetChanged();
         });
-
-//        mExerciseRepository.retrieveExerciseTask().observe(this, notes -> {
-//
-//        });
-        mWorkoutRepository.retrieveWorkoutWithExercises().observe(this, workout -> {
-            mWorkoutWithExercises.addAll(workout);
-            mWorkoutsRecyclerAdapter.notifyDataSetChanged();
-//
-        });
-
-
-    }
-
-    public void insertFakeWorkouts(){
-        for(int i = 0;i<1000; i++){
-
-//            WorkoutWithExercises noteFake = new Workout();
-//            noteFake.setTitle("Workout #"+ i);
-//            mWorkouts.add(noteFake);
-        }
-        mWorkoutsRecyclerAdapter.notifyDataSetChanged();
     }
 
     private void deleteWorkout(Workout workout){
         mWorkouts.remove(workout);
         mWorkoutRepository.deleteWorkout(workout);
-//        mWorkoutsRecyclerAdapter.notifyDataSetChanged();
+        mWorkoutsRecyclerAdapter.notifyDataSetChanged();
     }
 
     @Override

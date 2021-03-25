@@ -5,12 +5,10 @@ import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
-import androidx.room.Transaction;
 import androidx.room.Update;
 
 import com.example.workout_room_persistance.model.Exercise;
 import com.example.workout_room_persistance.model.Workout;
-import com.example.workout_room_persistance.model.WorkoutWithExercises;
 
 import java.util.List;
 
@@ -18,7 +16,7 @@ import java.util.List;
 public interface WorkoutDao {
 
     @Insert
-    long[] insertWorkouts(Workout... workouts);
+    long[] insertWorkouts(Workout... workout);
 
     @Query("SELECT * FROM workouts")
     LiveData<List<Workout>> getAllData();
@@ -29,15 +27,14 @@ public interface WorkoutDao {
     @Update
     int update(Workout... workouts);
 
-    @Transaction
-    @Query("SELECT * FROM workouts")
-    LiveData<List<WorkoutWithExercises>> getWorkoutWithExercises();
-
     @Update
     int update(Exercise... exercise);
 
     @Insert
     long[] insertExercise(Exercise... exercise);
+
+    @Delete
+    int delete(Exercise... exercise);
 
     @Query("SELECT * FROM exercises")
     LiveData<List<Exercise>> getAll();
