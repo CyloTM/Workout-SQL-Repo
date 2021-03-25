@@ -1,5 +1,8 @@
 package com.example.workout_room_persistance.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import androidx.room.Embedded;
 import androidx.room.Relation;
 
@@ -14,6 +17,23 @@ public class WorkoutWithExercises {
             entity = Exercise.class
     )
     public List<Exercise> exercises;
+
+//    protected WorkoutWithExercises(Parcel in) {
+//        workout = in.readParcelable(Workout.class.getClassLoader());
+//        exercises = in.createTypedArrayList(Exercise.CREATOR);
+//    }
+//
+//    public static final Creator<WorkoutWithExercises> CREATOR = new Creator<WorkoutWithExercises>() {
+//        @Override
+//        public WorkoutWithExercises createFromParcel(Parcel in) {
+//            return new WorkoutWithExercises(in);
+//        }
+//
+//        @Override
+//        public WorkoutWithExercises[] newArray(int size) {
+//            return new WorkoutWithExercises[size];
+//        }
+//    };
 
     public Workout getWorkout() {
         return workout;
@@ -30,4 +50,16 @@ public class WorkoutWithExercises {
     public void setExercises(List<Exercise> exercises) {
         this.exercises = exercises;
     }
+
+//    @Override
+//    public int describeContents() {
+//        return 0;
+//    }
+//
+//    @Override
+//    public void writeToParcel(Parcel dest, int flags) {
+//        dest.writeInt(getWorkout().getId());
+//        dest.writeString(getWorkout().getTitle());
+////        dest.writeTypedList(exercises);
+//    }
 }

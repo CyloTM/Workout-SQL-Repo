@@ -58,7 +58,7 @@ public class Workout implements Parcelable {
     protected Workout(Parcel in) {
         id = in.readInt();
         title = in.readString();
-//        exercises = (ArrayList<Exercise>) in.readValue(Exercise.class.getClassLoader());
+        exercises = (List<Exercise>) in.readValue(Exercise.class.getClassLoader());
     }
 
     public static final Creator<Workout> CREATOR = new Creator<Workout>() {
@@ -102,7 +102,7 @@ public class Workout implements Parcelable {
         return "Note{" +
                 "id =" + id +
                 "title='" + title + '\'' +
-//                ", exercises='" + exercises + '\'' +
+                ", exercises='" + exercises + '\'' +
                 '}';
     }
 
@@ -115,7 +115,7 @@ public class Workout implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(id);
         dest.writeString(title);
-//        dest.writeValue(exercises);
+        dest.writeValue(exercises);
     }
 
     public Workout(WorkoutWithExercises workoutWithExercises) {

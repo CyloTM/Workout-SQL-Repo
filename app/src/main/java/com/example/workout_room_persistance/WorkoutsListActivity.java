@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.View;
 
@@ -88,8 +89,8 @@ public class WorkoutsListActivity extends AppCompatActivity implements
 //        mExerciseRepository.retrieveExerciseTask().observe(this, notes -> {
 //
 //        });
-        mWorkoutRepository.retrieveWorkoutWithExercises().observe(this, workoutWithExercises -> {
-            mWorkouts.addAll(workoutWithExercises);
+        mWorkoutRepository.retrieveWorkoutWithExercises().observe(this, workout -> {
+            mWorkouts.addAll(workout);
             mWorkoutsRecyclerAdapter.notifyDataSetChanged();
 //
         });
@@ -117,14 +118,13 @@ public class WorkoutsListActivity extends AppCompatActivity implements
     public void onClick(View v) {
         Intent intent = new Intent(this, ExerciseListActivity.class);
         startActivity(intent);
-
     }
 
     @Override
     public void onWorkoutClicked(int position) {
         Log.d(TAG, "Note " + position + " has been clicked");
         Intent intent = new Intent(this, ExerciseListActivity.class);
-//        intent.putExtra("selected_workout", mWorkouts.get(position));
+        intent.putExtra("selected_workout", mWorkouts.get(position));
         startActivity(intent);
 
     }

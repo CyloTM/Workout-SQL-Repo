@@ -105,7 +105,7 @@ public class Exercise implements Parcelable {
     @ForeignKey
             (entity = Workout.class,
                     parentColumns = "id",
-                    childColumns = "publisherId",
+                    childColumns = "workoutId",
                     onDelete = CASCADE)
     private int workoutId;
 }

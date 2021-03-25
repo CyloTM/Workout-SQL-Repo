@@ -173,6 +173,7 @@ public class ExerciseListActivity extends AppCompatActivity implements
         i+=1;
         Exercise mExercise = new Exercise();
         mExercise.setTitle("Exercise" + i);
+        mExercise.setWorkoutId(mFinalWorkout.getId());
         mExercise.setRepetitions("0");
         mExercises.add(mExercise);
         mExercisesRecyclerAdapter.notifyDataSetChanged();
@@ -307,10 +308,11 @@ public class ExerciseListActivity extends AppCompatActivity implements
             }
 
             case R.id.fab:{
-//                saveNewExercise();
+                saveNewExercise();
 
-                openExerciseDialog();
-//                intent.putExtra("selected_note", mExercises.get());
+//                openExerciseDialog();
+//                intent.putExtra("sele
+//                ted_note", mExercises.get());
 //                customDialog = new CustomExerciseListDialog(ExerciseListActivity.this, mExercisesRecyclerAdapter);
 //                customDialog.show();
 //                customDialog.setCanceledOnTouchOutside(false);
