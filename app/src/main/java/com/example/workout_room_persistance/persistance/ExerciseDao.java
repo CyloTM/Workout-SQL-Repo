@@ -16,8 +16,7 @@ import java.util.List;
 @Dao
 public interface ExerciseDao {
 
-    @Insert
-    long[] insertExercise(Exercise... exercise);
+
 
     @Query("SELECT * FROM exercises")
     LiveData<List<Exercise>> getAllData();
@@ -27,6 +26,9 @@ public interface ExerciseDao {
 
     @Update
     int update(Exercise... exercise);
+
+    @Insert
+    long[] insertExercise(Exercise... exercise);
 
 //    @Query("DELETE FROM exercises")
 //    public void delete();

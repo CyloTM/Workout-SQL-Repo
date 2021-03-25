@@ -102,6 +102,7 @@ public class ExerciseListActivity extends AppCompatActivity implements
         else{
             //NOT a new note (VIEW MODE)
             setWorkoutProperties();
+            retrieveExercises();
 
         }
 
@@ -164,6 +165,32 @@ public class ExerciseListActivity extends AppCompatActivity implements
         }
     }
 
+    private void retrieveExercises(){
+        mWorkoutRepository.retrieveExerciseTask().observe(this, notes -> {
+            for(int i = 0; i< notes.size();i++){
+                    Log.d(TAG, "onDoubleTab: double tapped!");
+                    if(mFinalWorkout.getId() == notes.get(i).getWorkoutId()){
+                    mExercises.add(notes.get(i));
+                    mExercisesRecyclerAdapter.notifyDataSetChanged();
+
+                }
+            }
+//            mExercises.addAll(notes);
+//            mExercisesRecyclerAdapter.notifyDataSetChanged();
+
+
+        });
+
+//        mExerciseRepository.retrieveExerciseTask().observe(this, notes -> {
+//
+//        });
+//        mWorkoutRepository.retrieveWorkoutWithExercises().observe(this, workout -> {
+//            mExercises.addAll(workout);
+//            mWorkoutsRecyclerAdapter.notifyDataSetChanged();
+////
+//        });
+    }
+
 
     private void saveNewWorkout(){mWorkoutRepository.insertWorkoutTask(mFinalWorkout); }
     private void updateWorkout(){mWorkoutRepository.updateWorkout(mFinalWorkout);}
@@ -178,9 +205,9 @@ public class ExerciseListActivity extends AppCompatActivity implements
         mExercises.add(mExercise);
         mExercisesRecyclerAdapter.notifyDataSetChanged();
 
-//        mExerciseRepository.insertExerciseTask(mExercise);
+        mWorkoutRepository.insertExerciseTask(mExercise);
 
-//        mExerciseRepository.updateExercise(mExercise);
+        mExerciseRepository.updateExercise(mExercise);
     }
 //    private void updateExercise(){mExerciseRepository.updateExercise(mFinalWorkout);}
 

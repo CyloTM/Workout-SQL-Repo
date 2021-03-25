@@ -46,7 +46,7 @@ public class WorkoutWithExerciseRepository {
     }
 
     public void insertExerciseTask(Exercise exercise){
-        new ExerciseInsertAsyncTask(mExerciseDatabase.getExerciseDao()).execute(exercise);
+//        new ExerciseInsertAsyncTask(mExerciseDatabase.getExerciseDao()).execute(exercise);
 
     }
 

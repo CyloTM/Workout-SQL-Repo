@@ -8,13 +8,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.util.Log;
 import android.view.View;
 
 import com.example.workout_room_persistance.adapter.WorkoutsRecyclerAdapter;
-import com.example.workout_room_persistance.model.Workout;
 //import com.example.workout_room_persistance.model.WorkoutWithExercises;
+import com.example.workout_room_persistance.model.Workout;
 import com.example.workout_room_persistance.model.WorkoutWithExercises;
 import com.example.workout_room_persistance.persistance.ExerciseRepository;
 import com.example.workout_room_persistance.persistance.WorkoutDao;
@@ -34,7 +33,8 @@ public class WorkoutsListActivity extends AppCompatActivity implements
     private RecyclerView mRecyclerView;
 
     // Variables
-    private ArrayList<WorkoutWithExercises> mWorkouts = new ArrayList();
+    private ArrayList<WorkoutWithExercises> mWorkoutWithExercises = new ArrayList();
+    private ArrayList<Workout> mWorkouts= new ArrayList();
     private WorkoutsRecyclerAdapter mWorkoutsRecyclerAdapter;
 
     private WorkoutRepository mWorkoutRepository;
@@ -71,26 +71,26 @@ public class WorkoutsListActivity extends AppCompatActivity implements
         VerticalSpacingItemDecorator itemDecorator = new VerticalSpacingItemDecorator(10);
         mRecyclerView.addItemDecoration(itemDecorator);
         new ItemTouchHelper(itemTouchHelperCallBack).attachToRecyclerView(mRecyclerView);
-        mWorkoutsRecyclerAdapter = new WorkoutsRecyclerAdapter(mWorkouts, this);
+        mWorkoutsRecyclerAdapter = new WorkoutsRecyclerAdapter(mWorkoutWithExercises, this);
         mRecyclerView.setAdapter(mWorkoutsRecyclerAdapter);
 
     }
     private void retrieveWorkouts(){
-//        mWorkoutRepository.retrieveWorkoutTask().observe(this, notes -> {
-//            if(mWorkouts.size()>0){
-//                mWorkouts.clear();
-//            }
-//            if(notes!=null){
-//                mWorkouts.addAll(notes);
-//            }
-//            mWorkoutsRecyclerAdapter.notifyDataSetChanged();
-//        });
+        mWorkoutRepository.retrieveWorkoutTask().observe(this, notes -> {
+            if(mWorkouts.size()>0){
+                mWorkouts.clear();
+            }
+            if(notes!=null){
+                mWorkouts.addAll(notes);
+            }
+            mWorkoutsRecyclerAdapter.notifyDataSetChanged();
+        });
 
 //        mExerciseRepository.retrieveExerciseTask().observe(this, notes -> {
 //
 //        });
         mWorkoutRepository.retrieveWorkoutWithExercises().observe(this, workout -> {
-            mWorkouts.addAll(workout);
+            mWorkoutWithExercises.addAll(workout);
             mWorkoutsRecyclerAdapter.notifyDataSetChanged();
 //
         });
@@ -108,10 +108,10 @@ public class WorkoutsListActivity extends AppCompatActivity implements
         mWorkoutsRecyclerAdapter.notifyDataSetChanged();
     }
 
-    private void deleteWorkout(WorkoutWithExercises workout){
+    private void deleteWorkout(Workout workout){
         mWorkouts.remove(workout);
-        mWorkoutsRecyclerAdapter.notifyDataSetChanged();
-//        mWorkoutRepository.deleteWorkout(workout);
+        mWorkoutRepository.deleteWorkout(workout);
+//        mWorkoutsRecyclerAdapter.notifyDataSetChanged();
     }
 
     @Override
